@@ -1,0 +1,124 @@
+//Omada ergasias
+// Ioanna Pantelopoulou
+// Dimitris Datsogiannis
+// Dimitris Garyfallou
+// Aggelos Toutziaris
+
+
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
+#include "CircLib.h"
+#include "hash.h"
+#include "mna.h"
+
+
+int main(int argc, char *argv[]){
+
+	FILE *f=NULL;
+
+	char c;
+	char option[100];
+	char printable[1000];
+	char *nodename;
+	
+	initCirc();
+
+	f=fopen(argv[1],"r");			//Anoigma tou arxeiou
+	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
+	
+	
+//Diavasma xaraktira kai antistoixi leitourgia analoga me auton (Provlepsi gia grammi sxoliwn kai gia telos arxeiou)
+	c=fgetc(f);
+	do{
+		switch(c) {
+			case 'R':{createR(f);break;}
+			case 'V':{createV(f);m2++;break;}
+			case 'I':{createI(f);break;}
+			case 'C':{createC(f);break;}
+			case 'L':{createL(f);m2++;break;}
+			case 'D':{createD(f);break;}
+			case 'M':{createM(f);break;}
+			case 'B':{createB(f);break;}
+			case 'r':{createR(f);break;}
+			case 'v':{createV(f);m2++;break;}
+			case 'i':{createI(f);break;}
+			case 'c':{createC(f);break;}
+			case 'l':{createL(f);m2++;break;}
+			case 'd':{createD(f);break;}
+			case 'm':{createM(f);break;}
+			case 'b':{createB(f);break;}
+			case '.':{					
+					fscanf(f,"%s",option);
+					if (!strcmp(option,"OPTIONS")){
+						//Spd
+						option[0]=fgetc(f);
+						while((option[0]!='\n')&&(option[0]!=EOF)){
+							if(option[0]=='S'){
+								option[0]=fgetc(f);
+								if(option[0]=='P'){
+									option[0]=fgetc(f);		
+									if(option[0]=='D'){
+									  cholesky=1;
+									}							
+								}
+							}
+						option[0]=fgetc(f);
+						}
+					}
+					else if ((!strcmp(option,"PLOT"))||(!strcmp(option,"PRINT"))){
+					  option[0]=fgetc(f);
+					  while((option[0]!='\n')&&(option[0]!=EOF)){	//katanalwnei to keno
+					    option[0]=fgetc(f);
+					    if(option[0]=='V'){
+					      option[0]=fgetc(f);
+					      if(option[0]=='('){
+						option[0]=fgetc(f);
+						
+						while((option[0]!=',')&&(option[0]!=')')){
+						  
+						  option[0]=fgetc(f);	//node
+						  //nodename = strdup(option);
+						}
+		
+						if(option[0]=')'){
+						  plot=1;
+						}
+					      }
+					    }
+					    option[0]=fgetc(f);
+					  }
+
+					}
+			break;}
+						
+				 	
+
+			case '*':{
+			c=fgetc(f);
+			while(c!='\n'&&(c!=EOF)){c=fgetc(f);}/*MOVE TO NEXT LINE*/break;}
+			default:{break;}
+		}
+		if(c!=EOF){c=fgetc(f);}
+	}while(!feof(f));
+
+	fclose(f);
+
+	printf("cholesky:%d\n",cholesky);
+	printf("plot:%d\n",plot);
+//An den yparxei komvos 0 (geiwsi) to programma termatizei
+	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
+
+
+//	printLists();
+
+//	CreateMna();
+	
+	//HASHING
+
+	
+
+//	printHash();
+	
+}
