@@ -117,8 +117,8 @@ void CreateMna(){
 	}
 	
 	
-	printf(" \n M2= %d \n N=%d \n",m2,hash_count);
-	printf(" A\n");
+	printf("\nM2=%d\nN=%d\n\n",m2,hash_count);
+	printf("Matrix A\n");
 
 	for(i=0;i<sizeA;i++){
 		for(j=0;j<sizeA;j++){
@@ -128,7 +128,7 @@ void CreateMna(){
 		printf("\n");
 	}
 
-	printf(" B\n");
+	printf("Matrix B\n");
 	for(i=0;i<sizeB;i++){
 		printf(" %.3lf ",gsl_vector_get(B,i));
 	}
@@ -139,19 +139,23 @@ void CreateMna(){
 void lu(){
 
 	int s,i,j;
-	
+	double current_value;
+	FILE *fp;
+	char filename[30];
+	char str[12];
+
 	p=gsl_permutation_alloc ((hash_count-1)+m2);
 	gsl_permutation_init(p);
 	gsl_linalg_LU_decomp(A,p,&s);				//s=signum: (-1)^n opou n #enallagwn
 
-	printf("LU\n ");					//prints A=LU
+	printf("LU matrix\n");					//prints A=LU
 	
 	for(i=0;i<sizeA;i++){
 		for(j=0;j<sizeA;j++){
-			printf(" %.3lf ",gsl_matrix_get (A, i, j));
+			printf(" %.6lf ",gsl_matrix_get (A, i, j));
 		}
 		printf("\n");
-	}		
+	}
 
 	printf("Permutation vector\n");				//prints permutation vector
 	gsl_permutation_fprintf (stdout, p, " %u");
@@ -162,60 +166,175 @@ void lu(){
 		
 		printf("X vector \n");
 		for(i=0;i<sizeB;i++){
-			printf(" %.3lf ",gsl_vector_get(x,i));
-		}
-		printf("\n");		
-	}
-	else{
-		double current_value;
-		for(current_value=start_value;current_value<=end_value;current_value+=sweep_step){
-
-		  gsl_vector_set(B,sweep_source-1,current_value);				//agnoei tin timh pou eixe prin			
-
-			gsl_linalg_LU_solve(A,p,B,x);				//prepei na kratame ka8e dianusma x
-
-			printf("\n Voltage at %lf:",current_value);
-			for(i=0;i<plot_size;i++){
-				printf("Node %d->%lf,",plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));	//dunamika gia current_value gia olous tous komvous tou plot
-			}			
+			printf(" %.6lf ",gsl_vector_get(x,i));
 		}
 		printf("\n");
+	}else{
+	  for(i=0;i<=plot_size;i++){	//Adeiasma twn arxeiwn
+	    sprintf(str, "%d", plot_nodes[i]);
+	    strcpy(filename,"Results-Node ");
+	    strcat(filename,str);
+	    fp = fopen(filename, "w");
+	    fflush(fp);
+	    fclose(fp);
+	  }
+		if(sweep_source!=-1){
+		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+
+		    gsl_vector_set(B,sweep_source-1,current_value);
+		    gsl_linalg_LU_solve(A,p,B,x);
+		    
+		    for(i=0;i<=plot_size;i++){	//Gemisma twn arxeiwn
+
+		      sprintf(str, "%d", plot_nodes[i]);
+		      strcpy(filename,"Results-Node ");
+		      strcat(filename,str);
+		      fp = fopen(filename, "a");
+		      if (fp == NULL) {
+			printf("Can't open output file %s!\n",filename);
+			return;
+		      }
+		      fprintf(fp,"Sweep source voltage at %lf:\tNode %d value:\t%lf\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fflush(fp);
+		      fclose(fp);
+		    }
+		  }
+		}else{
+		  //Anairesi twn praksewn + kai - apo tin arxiki timi tis pigis ston pinaka B
+		  //kai praksi + kai - me to start_value
+		  if(sweep_posNode!=0){
+		    gsl_vector_set(B,sweep_posNode-1,gsl_vector_get(B,sweep_posNode-1)+sweep_value_I-start_value);
+		  }
+		  if(sweep_negNode!=0){
+		    gsl_vector_set(B,sweep_negNode-1,gsl_vector_get(B,sweep_negNode-1)-sweep_value_I+start_value);
+		  }
+		  
+		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+
+		   gsl_linalg_LU_solve(A,p,B,x);
+		   
+		   //Allagi twn timwn ston pinaka B gia to epomeno vima tou sweep
+		   if(sweep_posNode!=0){
+		     gsl_vector_set(B,sweep_posNode-1,gsl_vector_get(B,sweep_posNode-1)-sweep_step);
+		    }
+		   if(sweep_negNode!=0){
+		     gsl_vector_set(B,sweep_negNode-1,gsl_vector_get(B,sweep_negNode-1)+sweep_step);
+		   }
+
+		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+
+		      sprintf(str, "%d", plot_nodes[i]);
+		      strcpy(filename,"Results-Node ");
+		      strcat(filename,str);
+		      fp = fopen(filename, "a");
+		      if (fp == NULL) {
+			printf("Can't open output file %s!\n",filename);
+			return;
+		      }
+		      fprintf(fp,"Sweep source current at %lf:\tNode %d value:\t%.6e\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fflush(fp);
+		      fclose(fp);
+		    }
+		  }
+		  printf("\n");
+		}
 	}
 }
 
 void Cholesky(){
 	
 	int i,j;
+	double current_value;
+	FILE *fp;
+	char filename[30];
+	char str[12];
+	
 	gsl_linalg_cholesky_decomp(A);
 
-	printf("CHOLESKY\n ");	
+	printf("CHOLESKY matrix\n ");
 	for(i=0;i<sizeA;i++){
 	 	for(j=0;j<sizeA;j++){
-			printf(" %.3lf ",gsl_matrix_get (A, i, j));
+			printf(" %.6lf ",gsl_matrix_get (A, i, j));
 	  	}
 		printf("\n");
 	}	
 
-	if(dc_sweep==0){	
-		gsl_linalg_cholesky_solve(A,B,x);				//sovle cholesky
+	if(dc_sweep==0){
+		gsl_linalg_cholesky_solve(A,B,x);				//solve cholesky
 
 		printf("X vector \n");
 		for(i=0;i<sizeB;i++){
-			printf(" %.3lf ",gsl_vector_get(x,i));
-		}
-		printf("\n");		
-	}
-	else{
-		double current_value;
-		for(current_value=start_value;current_value<=end_value;current_value+=sweep_step){
-			gsl_vector_set(B,sweep_source-1,current_value);				//agnoei tin timh pou eixe prin			
-			gsl_linalg_cholesky_solve(A,B,x);			//prepei na kratame ka8e dianusma x	
-			printf("\n Voltage at %lf:",current_value);
-			for(i=0;i<plot_size;i++){
-				printf("Node %d->%lf,",plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));	//dunamika gia current_value gia olous tous komvous tou plot
-			}	
+			printf(" %.6lf ",gsl_vector_get(x,i));
 		}
 		printf("\n");
-	}
+	}else{
+	  for(i=0;i<=plot_size;i++){	//Adeiasma twn arxeiwn
+	    sprintf(str, "%d", plot_nodes[i]);
+	    strcpy(filename,"Results-Node ");
+	    strcat(filename,str);
+	    fp = fopen(filename, "w");
+	    fflush(fp);
+	    fclose(fp);
+	  }
+		if(sweep_source!=-1){
+		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
 
-} 
+		    gsl_vector_set(B,sweep_source-1,current_value);
+		    gsl_linalg_cholesky_solve(A,B,x);
+		    
+		    for(i=0;i<=plot_size;i++){	//Gemisma twn arxeiwn
+
+		      sprintf(str, "%d", plot_nodes[i]);
+		      strcpy(filename,"Results-Node ");
+		      strcat(filename,str);
+		      fp = fopen(filename, "a");
+		      if (fp == NULL) {
+			printf("Can't open output file %s!\n",filename);
+			return;
+		      }
+		      fprintf(fp,"Sweep source voltage at %lf:\tNode %d value:\t%lf\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fflush(fp);
+		      fclose(fp);
+		    }
+		  }
+		}else{
+		  //Anairesi twn praksewn + kai - apo tin arxiki timi tis pigis ston pinaka B
+		  //kai praksi + kai - me to start_value
+		  if(sweep_posNode!=0){
+		    gsl_vector_set(B,sweep_posNode-1,gsl_vector_get(B,sweep_posNode-1)+sweep_value_I-start_value);
+		  }
+		  if(sweep_negNode!=0){
+		    gsl_vector_set(B,sweep_negNode-1,gsl_vector_get(B,sweep_negNode-1)-sweep_value_I+start_value);
+		  }
+		  
+		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+
+		   gsl_linalg_cholesky_solve(A,B,x);
+		   
+		   //Allagi twn timwn ston pinaka B gia to epomeno vima tou sweep
+		   if(sweep_posNode!=0){
+		     gsl_vector_set(B,sweep_posNode-1,gsl_vector_get(B,sweep_posNode-1)-sweep_step);
+		    }
+		   if(sweep_negNode!=0){
+		     gsl_vector_set(B,sweep_negNode-1,gsl_vector_get(B,sweep_negNode-1)+sweep_step);
+		   }
+
+		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+
+		      sprintf(str, "%d", plot_nodes[i]);
+		      strcpy(filename,"Results-Node ");
+		      strcat(filename,str);
+		      fp = fopen(filename, "a");
+		      if (fp == NULL) {
+			printf("Can't open output file %s!\n",filename);
+			return;
+		      }
+		      fprintf(fp,"Sweep source current at %lf:\tNode %d value:\t%.6e\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fflush(fp);
+		      fclose(fp);
+		    }
+		  }
+		  printf("\n");
+		}
+	}
+}

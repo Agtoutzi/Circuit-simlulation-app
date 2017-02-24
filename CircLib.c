@@ -21,14 +21,16 @@ void initCirc(){
 	rootM=NULL;
 	rootB=NULL;
 	groundflag=0;
-	cholesky=0;
+	SPD=0;
+	ITER=0;
+	itol_value=0;
 	plot=0;
-	print=0;
 	m2=0;
 	hash_count=1;
 	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
 	
 	dc_sweep=0;
+	sweep_value_I=0;
 
 }
 
@@ -434,7 +436,7 @@ void printLists(){
 		printf("name = %s  ",nodeD->name);
 		printf("node1 = %s  ",nodeD->node1);
 		printf("node2 = %s  ",nodeD->node2);
-//		printf("value = %e  ",nodeD->value);
+
 		printf("area = %d\n",nodeD->area);
 	
 		nodeD=nodeD->next;	
