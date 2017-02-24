@@ -1,1 +1,1 @@
-gcc *.c -lm -lgsl -lgslcblas -o parser
+gcc *.c -Wall -lm -lgsl -lgslcblas -o parser
