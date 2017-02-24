@@ -18,6 +18,10 @@ double convertStringToDouble(char* string){
 		i++;
 	}
 	
+	if(string[i]=='+'){
+		i++;
+	}
+	
 	while((string[i] )!= '.'){
 		res = res*10 +(string[i] - '0');
 		i++;
@@ -54,24 +58,32 @@ double convertStringToDouble(char* string){
 void createV(FILE *k){
 
 	char d[100];
+	
 	VoltT *new;
-
-	new = (VoltT*) malloc(sizeof(VoltT));
-
+	
+	new = (VoltT*)malloc(sizeof(VoltT));
+	
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->node1=d;
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->node2=d;
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
-	new->next = rootV;
-	rootV = new;
-	while(fgetc(k)!='\n'){}
-
+	
+	new->next=rootV;
+	rootV=new;
+	
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 }
 
 
@@ -83,70 +95,59 @@ void createI(FILE *k){
 	new = (AmperT*) malloc(sizeof(AmperT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->node1=d;
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->node2=d;
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
+	
 	new->next = rootI;
 	rootI = new;
-	while(fgetc(k)!='\n'){}
+	
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 
 }
 
 
-void createR(FILE *k,ResistanceT *new1){
+void createR(FILE *k){
 
 	char d[100];
-	char d2[100];
-	char d3[100];
-	char d4[100];
 	
-//	ResistanceT *new1;
+	ResistanceT *new;
 	
-//	new1 = (ResistanceT*)malloc(sizeof(ResistanceT));
+	new = (ResistanceT*)malloc(sizeof(ResistanceT));
 	
+	fscanf(k,"%s",d);
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
 	
-	fscanf(k,"%s ",d);
-//	printf("d = %s\n",d);
-	new1->name=d;
-//	printf("name = %s\n",new1->name);
-	fscanf(k,"%s ",d2);
-//	printf("d = %s\n",d2);
-	new1->node1=d2;
-	if(d2[0]=='0'){groundflag=1;}
-//	printf("name = %s\n",new1->name);
-//	printf("node1 = %s\n",new1->node1);
-	fscanf(k,"%s ",d3);
-//	printf("d = %s\n",d3);
-	new1->node2=d3;
-	if(d3[0]=='0'){groundflag=1;}
-//	printf("name = %s\n",new1->name);
-//	printf("node1 = %s\n",new1->node1);
-//	printf("node2 = %s\n",new1->node2);
-	fscanf(k,"%s ",d4);
-//	printf("d = %s\n",d4);
-	new1->value=convertStringToDouble(d4);
-//	printf("name = %s\n",new1->name);
-//	printf("node1 = %s\n",new1->node1);
-//	printf("node2 = %s\n",new1->node2);
-//	printf("value = %e\n",new1->value);
-//	new1->next = rootR;
-//	rootR = new1;
+	fscanf(k,"%s",d);
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
+	if(d[0]=='0'){groundflag=1;}
 	
-//	printf("name = %s\n",rootR->name);
+	fscanf(k,"%s",d);
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
+	if(d[0]=='0'){groundflag=1;}
 	
-//	printf("node1 = %s\n",rootR->node1);
+	fscanf(k,"%s",d);
+	new->value=convertStringToDouble(d);
 	
-//	printf("node2 = %s\n",rootR->node2);
+	new->next=rootR;
+	rootR=new;
 	
-//	printf("value = %e\n",rootR->value);
-	
-//	while(fgetc(k)!='\n'){}
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 
 }
 
@@ -158,18 +159,26 @@ void createC(FILE *k){
 	new = (CapacitorT*) malloc(sizeof(CapacitorT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->node1=d;
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->node2=d;
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
+	
 	new->next = rootC;
 	rootC = new;
-	while(fgetc(k)!='\n'){}
+	
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 
 }
 
@@ -181,18 +190,26 @@ void createL(FILE *k){
 	new = (InductorT*) malloc(sizeof(InductorT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->node1=d;
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->node2=d;
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
+	
 	new->next = rootL;
 	rootL = new;
-	while(fgetc(k)!='\n'){}
+	
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 
 }
 
@@ -205,19 +222,27 @@ void createD(FILE *k){
 	new = (DiodeT*) malloc(sizeof(DiodeT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->node1=d;
+	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->node2=d;
+	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
 	
 	new->area=1;
-	while(d1=fgetc(k)!='\n'){
-		if(d1!=' '){new->area= d1-'0';}
+	d1=fgetc(k);
+	while(d1!='\n'&&(d1!=EOF)){
+		if(d1 != ' '){new->area=d1 - '0';}
+		d1=fgetc(k);
 	}
 	
 	//Model Name
@@ -235,29 +260,41 @@ void createM(FILE *k){
 	new = (MosT*) malloc(sizeof(MosT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->D=d;
+	new->D=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->D , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->G=d;
+	new->G=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->G , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->S=d;
+	new->S=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->S , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->B=d;
+	new->B=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->B , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	//Model Name
 	
 	fscanf(k,"%s",d);
 	new->L=convertStringToDouble(d);
+	
 	fscanf(k,"%s",d);
 	new->W=convertStringToDouble(d);	
+	
 	new->next = rootM;
 	rootM = new;
-	while(fgetc(k)!='\n'){}
+	
+	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
 
 }
 
@@ -270,23 +307,31 @@ void createB(FILE *k){
 	new = (BjtT*) malloc(sizeof(BjtT));
 
 	fscanf(k,"%s",d);
-	new->name=d;
+	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->name , d);
+	
 	fscanf(k,"%s",d);
-	new->C=d;
+	new->C=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->C , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->B=d;
+	new->B=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->B , d);
 	if(d[0]=='0'){groundflag=1;}
+	
 	fscanf(k,"%s",d);
-	new->E=d;
+	new->E=(char*)malloc(sizeof(char)*strlen(d));
+	strcpy(new->E , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	//Model Name
 	
 	new->area=1;
-	
-	while(d1=fgetc(k)!='\n'){
-		if(d1!=' '){new->area= d1-'0';}
+	d1=fgetc(k);
+	while(d1!='\n'&&(d1!=EOF)){
+		if(d1 != ' '){new->area=d1 - '0';}
+		d1=fgetc(k);
 	}
 	
 	new->next = rootB;
