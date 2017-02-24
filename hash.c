@@ -10,6 +10,9 @@
 #include "CircLib.h"
 #include "hash.h"
 #include "mna.h"
+#include "options.h"
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_cblas.h>
 
 
 /* Create a new hashtable. */
