@@ -8,8 +8,7 @@
 #include "options.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
-
-
+#include <gsl/gsl_linalg.h>
 
 void CreateMna(){
 
@@ -31,6 +30,8 @@ void CreateMna(){
 	sizeB = (hash_count-1)+m2;
 	B = gsl_vector_calloc(sizeB);
 
+	x = gsl_vector_calloc(sizeB);
+    
 	//Diatrexoume ti lista twn antistasewn kai simplirwnoume katallila to 1o n-1 * n-1 kommati tou pinaka A
 	
 	ResistanceT *currentR=rootR;
@@ -134,3 +135,87 @@ void CreateMna(){
 
 	printf("\n");
 }
+
+void lu(){
+
+	int s,i,j;
+	
+	p=gsl_permutation_alloc ((hash_count-1)+m2);
+	gsl_permutation_init(p);
+	gsl_linalg_LU_decomp(A,p,&s);				//s=signum: (-1)^n opou n #enallagwn
+
+	printf("LU\n ");					//prints A=LU
+	
+	for(i=0;i<sizeA;i++){
+		for(j=0;j<sizeA;j++){
+			printf(" %.3lf ",gsl_matrix_get (A, i, j));
+		}
+		printf("\n");
+	}		
+
+	printf("Permutation vector\n");				//prints permutation vector
+	gsl_permutation_fprintf (stdout, p, " %u");
+	printf("\n");
+
+	if(dc_sweep==0){
+		gsl_linalg_LU_solve(A,p,B,x);			//solve LU
+		
+		printf("X vector \n");
+		for(i=0;i<sizeB;i++){
+			printf(" %.3lf ",gsl_vector_get(x,i));
+		}
+		printf("\n");		
+	}
+	else{
+		double current_value;
+		for(current_value=start_value;current_value<=end_value;current_value+=sweep_step){
+
+		  gsl_vector_set(B,sweep_source-1,current_value);				//agnoei tin timh pou eixe prin			
+
+			gsl_linalg_LU_solve(A,p,B,x);				//prepei na kratame ka8e dianusma x
+
+			printf("\n Voltage at %lf:",current_value);
+			for(i=0;i<plot_size;i++){
+				printf("Node %d->%lf,",plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));	//dunamika gia current_value gia olous tous komvous tou plot
+			}			
+		}
+		printf("\n");
+	}
+}
+
+void Cholesky(){
+	
+	int i,j;
+	gsl_linalg_cholesky_decomp(A);
+
+	printf("CHOLESKY\n ");	
+	for(i=0;i<sizeA;i++){
+	 	for(j=0;j<sizeA;j++){
+			printf(" %.3lf ",gsl_matrix_get (A, i, j));
+	  	}
+		printf("\n");
+	}	
+
+	if(dc_sweep==0){	
+		gsl_linalg_cholesky_solve(A,B,x);				//sovle cholesky
+
+		printf("X vector \n");
+		for(i=0;i<sizeB;i++){
+			printf(" %.3lf ",gsl_vector_get(x,i));
+		}
+		printf("\n");		
+	}
+	else{
+		double current_value;
+		for(current_value=start_value;current_value<=end_value;current_value+=sweep_step){
+			gsl_vector_set(B,sweep_source-1,current_value);				//agnoei tin timh pou eixe prin			
+			gsl_linalg_cholesky_solve(A,B,x);			//prepei na kratame ka8e dianusma x	
+			printf("\n Voltage at %lf:",current_value);
+			for(i=0;i<plot_size;i++){
+				printf("Node %d->%lf,",plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));	//dunamika gia current_value gia olous tous komvous tou plot
+			}	
+		}
+		printf("\n");
+	}
+
+} 

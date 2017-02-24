@@ -14,7 +14,6 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
 
-
 /* Create a new hashtable. */
 hashtable_t *ht_create( int size ) {
 

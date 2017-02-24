@@ -27,6 +27,8 @@ void initCirc(){
 	m2=0;
 	hash_count=1;
 	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
+	
+	dc_sweep=0;
 
 }
 

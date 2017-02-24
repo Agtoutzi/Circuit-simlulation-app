@@ -110,13 +110,19 @@ InductorT *rootL;
 DiodeT *rootD;
 MosT *rootM;
 BjtT *rootB;
-int groundflag;
+int groundflag;				//mhpws DEFINES?
 int cholesky;
 int plot;
 int print;
 int m2; 				//plh8os autepagwgwn kai phgwn tashs				
 int hash_count;
-
+int dc_sweep;
+int sweep_source;
+double start_value;
+double end_value;
+double sweep_step;
+int *plot_nodes;                           // einai o pinakas pou apothikeuontai ta ids
+int plot_size;
 
 void initCirc();
 void createV(FILE *k);
