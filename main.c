@@ -78,9 +78,10 @@ int main(int argc, char *argv[]){
 //	printHash();
 
 	CreateMna();
-
+	
 	/*EPILUSH SUSTHMATOS*/			//Periptwsi an den exoume diavasei katholou .OPTIONS ?????????
 	if(SPD==0){
+	 
 		solve();
 	}
 	else{
