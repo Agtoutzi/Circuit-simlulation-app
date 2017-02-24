@@ -66,7 +66,6 @@ void read_options(FILE *f){
       cnt=1;
       while(nodeI!=NULL){
 	if(!(strcmp(nodeI->name,(readElement+1)))){
-	  
 	  sweep_source=cnt;
 	  break;
 	}

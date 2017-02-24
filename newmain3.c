@@ -4,7 +4,6 @@
 // Dimitris Garyfallou
 // Aggelos Toutziaris
 
-
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
