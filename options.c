@@ -38,7 +38,7 @@ void read_options(FILE *f){
 	  while((readElement = strtok (NULL, delimiters))!=NULL){
 	    if (!(strcmp(readElement,"SPD"))){SPD=1;continue;
 	    }else if (!(strcmp(readElement,"ITER"))){ITER=1;continue;
-	    }else if (!(strcmp(readElement,"ITOL="))){itol_value=atof(strtok (NULL, delimiters));continue;
+	    }else if (!(strcmp(readElement,"ITOL"))){itol_value=atof(strtok (NULL, delimiters));continue;
 	    }	//an meta to itol den yparxei kati, to programma tha skasei... (core dumped)(emeis ypothetoume oti tha yparxei sigoura..)
 	  }
 	  return;
@@ -120,11 +120,9 @@ void read_options(FILE *f){
 		readElement = strtok (NULL, delimiters);
 		plot_size++;
 	 }
-	 
-	
-	 plot_size++;
-         printf("PLOT_SIZE=%d\n",plot_size);
-	 plot_nodes= (int *)calloc(plot_size,sizeof(int)) ;			//TO DIOR8WSA SE SIZE+1
+
+         printf("PLOT_SIZE=%d\n",plot_size+1);
+	 plot_nodes= (int *)calloc(plot_size+1,sizeof(int)) ;
 	 
 	 readElement = strtok (printable2, delimiters);
 	 readElement = strtok (NULL, delimiters);
