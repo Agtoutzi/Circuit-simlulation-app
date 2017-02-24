@@ -1,0 +1,12 @@
+*Testing all circuit elements
+
+
+vpigitasis v+ v- 15
+ipigireumatos i+ i- 10
+rantistasi r+ 0 5
+cpyknwtis c+ c- 0
+lpinio l+ l- -5
+ddiodos d+ d- diodeModelName 
+mtransistorMos mDrain mGate mSource mBody mModelName 32e-9 32e-9
+btransistorBjt bCollector bBase bEmitter bModelName 
+*sihelfhaslehfslifeh
