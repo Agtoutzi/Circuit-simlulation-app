@@ -1,4 +1,4 @@
-//dhmiourgw edw ola ta structs 
+//Dilwsi twn structs 
 
 #ifndef STRUCTS_H
 #define STRUCTS_H
@@ -102,6 +102,7 @@ typedef struct Bjt{
 }BjtT;
 
 
+//Dilwsi twn katholikwn metavlitwn tou programmatos (roots kai elegxou gia geiwsi)
 VoltT *rootV;
 AmperT *rootI;
 ResistanceT *rootR;
@@ -112,16 +113,18 @@ MosT *rootM;
 BjtT *rootB;
 int groundflag;
 
+
+//Sinartisi arxikopoiisis twn katholikwn metavlitwn
 void initCirc(){
 
-	VoltT *rootV=NULL;
-	AmperT *rootI=NULL;
-	ResistanceT *rootR=NULL;
-	CapacitorT *rootC=NULL;
-	InductorT *rootL=NULL;
-	DiodeT *rootD=NULL;
-	MosT *rootM=NULL;
-	BjtT *rootB=NULL;
+	rootV=NULL;
+	rootI=NULL;
+	rootR=NULL;
+	rootC=NULL;
+	rootL=NULL;
+	rootD=NULL;
+	rootM=NULL;
+	rootB=NULL;
 	groundflag=0;
 
 }

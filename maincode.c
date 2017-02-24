@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]){
 
-	FILE *f;
+	FILE *f=NULL;
 	VoltT *nodeV;
 	AmperT *nodeI;
 	ResistanceT *nodeR;
@@ -16,8 +16,12 @@ int main(int argc, char *argv[]){
 	char c;
 	
 	initCirc();
-	f=fopen(argv[1],"r");
 	
+	f=fopen(argv[1],"r");			//Anoigma tou arxeiou
+	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
+	
+	
+//Diavasma xaraktira kai antistoixi leitourgia analoga me auton (Provlepsi gia grammi sxoliwn kai gia telos arxeiou)
 	c=fgetc(f);
 	do{
 		switch(c) {
@@ -29,18 +33,22 @@ int main(int argc, char *argv[]){
 			case 'D':{createD(f);break;}
 			case 'M':{createM(f);break;}
 			case 'B':{createB(f);break;}
-			case '*':{while(c=fgetc(f)!='\n'&&(c!=EOF)){}/*MOVE TO NEXT LINE*/break;}
+			case '*':{
+			c=fgetc(f);
+			while(c!='\n'&&(c!=EOF)){c=fgetc(f);}/*MOVE TO NEXT LINE*/break;}
 			default:{break;}
 		}
-		if(c!=EOF){c=fgetc(f);}
+		if(c!=EOF){c=fgetc(f);putchar(c);}
 	}while(!feof(f));
-	
+	printf("point16\n");
 	fclose(f);
+	printf("point17\n");
+//An den yparxei komvos 0 (geiwsi) to programma termatizei
+	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
 	
-	
-	if(groundflag==0){printf("\nError: There is no ground node. Program discontinued...\n");return(0);}
-	
-	
+printf("point18\n");
+//Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
+
 	nodeV=rootV;
 	while(nodeV!=NULL){
 		printf("\n---Volt---\n");
@@ -51,7 +59,7 @@ int main(int argc, char *argv[]){
 	
 		nodeV=nodeV->next;	
 	}
-
+printf("point19\n");
 	nodeI=rootI;
 	while(nodeI!=NULL){
 		printf("\n---Amper---\n");
@@ -118,7 +126,6 @@ int main(int argc, char *argv[]){
 		printf("body = %s\n",nodeM->B);
 		printf("lenght = %e\n",nodeM->L);
 		printf("width = %e\n",nodeM->W);
-	
 		nodeM=nodeM->next;	
 	}
 

@@ -1,9 +1,8 @@
 Ralpha a1 a2 +1.5e0
 Rbeta b1 b2 1.0e-1
 Rgamma c1 c2 5.2e1
-Ddelta d1 0 6.0e+2         
-
-*Vvoltage1 v1 0 2.0e1
+Ddelta d1 0 6.0e+2
+*Vvoltage1 v1 v2 2.0e1
 
 Lepsilon e1 e2 5.0e3
 
@@ -21,3 +20,4 @@ Ireuma2 r1 r2 -1.0e-2
 Cpiknwtis2 p1 0 -4.0e-6
 Lepsilon2 e1 e2 -5.0e3
 Ddelta2 d1 0 -6.0e+2     3    
+*this is a test file

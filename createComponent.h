@@ -3,7 +3,8 @@
 #include "CircLib.h"
 
 
-
+//Sinartisi pou dexetai string se morfi scientific double, px 1.43e5, 4.23e-5, 3.224e+9, -324.2e4, +324.124e+2 ktl...
+//kai epistrefei to antistoixo double arithmo
 double convertStringToDouble(char* string){
 
 	int negative=1;
@@ -54,39 +55,48 @@ double convertStringToDouble(char* string){
 	return(res);
 }
 
-
+//Sinartisi pou dimiourgei ena neo komvo gia pigi tasis, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn tasis
 void createV(FILE *k){
 
 	char d[100];
-	
 	VoltT *new;
 	
+	printf("point0\n");
 	new = (VoltT*)malloc(sizeof(VoltT));
-	
+	printf("point1\n");
 	fscanf(k,"%s",d);
+	printf("point2\n");
 	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	printf("point3\n");
 	strcpy(new->name , d);
-	
+	printf("point4\n");
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	printf("point5\n");
+//	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	printf("point6\n");
 	strcpy(new->node1 , d);
+	printf("point7\n");
 	if(d[0]=='0'){groundflag=1;}
-	
+	printf("point8\n");
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	printf("point9\n");
+//	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	printf("point10\n");
 	strcpy(new->node2 , d);
+	printf("point11\n");
 	if(d[0]=='0'){groundflag=1;}
-	
+	printf("point12\n");
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
-	
+	printf("point13\n");
 	new->next=rootV;
 	rootV=new;
-	
+	printf("point14\n");
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
+	printf("point15\n");
 }
 
-
+//Sinartisi pou dimiourgei ena neo komvo gia pigi reumatos, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn reumatos
 void createI(FILE *k){
 
 	char d[100];
@@ -118,7 +128,7 @@ void createI(FILE *k){
 
 }
 
-
+//Sinartisi pou dimiourgei ena neo komvo gia antistasi, apothikeuei ta stoixeia gia auti tin antistasi apo to arxeio, kai to sindeei stin arxi tis listas antistasewn
 void createR(FILE *k){
 
 	char d[100];
@@ -151,6 +161,7 @@ void createR(FILE *k){
 
 }
 
+//Sinartisi pou dimiourgei ena neo komvo gia piknwti, apothikeuei ta stoixeia gia auto ton piknwti apo to arxeio, kai to sindeei stin arxi tis listas piknwtwn
 void createC(FILE *k){
 
 	char d[100];
@@ -182,6 +193,7 @@ void createC(FILE *k){
 
 }
 
+//Sinartisi pou dimiourgei ena neo komvo gia pinio, apothikeuei ta stoixeia gia auto to pinio apo to arxeio, kai to sindeei stin arxi tis listas piniwn
 void createL(FILE *k){
 
 	char d[100];
@@ -213,6 +225,7 @@ void createL(FILE *k){
 
 }
 
+//Sinartisi pou dimiourgei ena neo komvo gia diodo, apothikeuei ta stoixeia gia auti tin diodo apo to arxeio, kai to sindeei stin arxi tis listas diodwn
 void createD(FILE *k){
 
 	char d[100];
@@ -252,6 +265,7 @@ void createD(FILE *k){
 	
 }
 
+//Sinartisi pou dimiourgei ena neo komvo gia transistor MOS, apothikeuei ta stoixeia gia auto to transistor MOS apo to arxeio, kai to sindeei stin arxi tis listas transistor MOS
 void createM(FILE *k){
 
 	char d[100];
@@ -298,6 +312,7 @@ void createM(FILE *k){
 
 }
 
+//Sinartisi pou dimiourgei ena neo komvo gia transistor BJT, apothikeuei ta stoixeia gia auto to transistor BJT apo to arxeio, kai to sindeei stin arxi tis listas transistor BJT
 void createB(FILE *k){
 
 	char d[100];
