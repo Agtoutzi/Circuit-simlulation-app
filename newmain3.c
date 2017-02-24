@@ -15,7 +15,7 @@
 #include "options.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
-
+#include <gsl/gsl_linalg.h>
 
 int main(int argc, char *argv[]){
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 	
 	initCirc();
 
-	f=fopen(argv[1],"r");			//Anoigma tou arxeiou
+	f=fopen(argv[1],"r");										//Anoigma tou arxeiou
 	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
 	
 	
@@ -74,11 +74,23 @@ int main(int argc, char *argv[]){
 //	printLists();
 
 	CreateMna();
-	
-	//HASHING
 
-	
+	/*EPILUSH SUSTHMATOS*/
+	if(cholesky==0){
+		lu();
+	}
+	else{
+		Cholesky();
+	}
 
-//	printHash();
+	//printHash();
+
+	/*free gsl matrices..Isws mpei se sunarthsh*/
+	// na kanoume ola ta free
+
+	gsl_permutation_free(p);
+	gsl_vector_free(B);
+	gsl_matrix_free(A);
+	gsl_vector_free(x);
 	
 }
