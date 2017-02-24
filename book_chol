@@ -6,4 +6,4 @@ r3 vb 0 8
 
 .OPTIONS
 .DC V1 5 15 3
-.PLOT V(va vb vc)
+.PLOT V(va) V(vb) V(vc)
