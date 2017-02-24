@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "CircLib.h"
-#include "createComponent.c"
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -67,100 +66,9 @@ int main(int argc, char *argv[]){
 //An den yparxei komvos 0 (geiwsi) to programma termatizei
 	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
 	
-//Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
+//	printLists();
 
-	nodeV=rootV;
-	printf("\n---Volt---\n");
-	while(nodeV!=NULL){
-		printf("name = %s  ",nodeV->name);
-		printf("node1 = %s  ",nodeV->node1);
-		printf("node2 = %s  ",nodeV->node2);
-		printf("value = %e\n",nodeV->value);
-	
-		nodeV=nodeV->next;	
-	}
-
-	nodeI=rootI;
-	printf("\n---Amper---\n");
-	while(nodeI!=NULL){
-		printf("name = %s  ",nodeI->name);
-		printf("node1 = %s  ",nodeI->node1);
-		printf("node2 = %s  ",nodeI->node2);
-		printf("value = %e\n",nodeI->value);
-	
-		nodeI=nodeI->next;	
-	}
-
-	nodeR=rootR;
-	printf("\n---Resistors---\n");
-	while(nodeR!=NULL){
-		printf("name = %s ",nodeR->name);
-		printf("node1 = %s ",nodeR->node1);
-		printf("node2 = %s ",nodeR->node2);
-		printf("value = %e\n",nodeR->value);
-	
-		nodeR=nodeR->next;	
-	}
-
-	nodeC=rootC;
-	printf("\n---Capacitors---\n");
-	while(nodeC!=NULL){
-		printf("name = %s ",nodeC->name);
-		printf("node1 = %s  ",nodeC->node1);
-		printf("node2 = %s  ",nodeC->node2);
-		printf("value = %e\n",nodeC->value);
-	
-		nodeC=nodeC->next;	
-	}
-
-	nodeL=rootL;
-	printf("\n---Inductors---\n");
-	while(nodeL!=NULL){
-		printf("name = %s  ",nodeL->name);
-		printf("node1 = %s  ",nodeL->node1);
-		printf("node2 = %s  ",nodeL->node2);
-		printf("value = %e\n",nodeL->value);
-	
-		nodeL=nodeL->next;	
-	}
-
-	nodeD=rootD;
-	printf("\n---Diodes---\n");
-	while(nodeD!=NULL){
-		printf("name = %s  ",nodeD->name);
-		printf("node1 = %s  ",nodeD->node1);
-		printf("node2 = %s  ",nodeD->node2);
-//		printf("value = %e  ",nodeD->value);
-		printf("area = %d\n",nodeD->area);
-	
-		nodeD=nodeD->next;	
-	}
-
-	nodeM=rootM;
-	printf("\n---Transistors MOS---\n");
-	while(nodeM!=NULL){
-		printf("name = %s  ",nodeM->name);
-		printf("drain = %s  ",nodeM->D);
-		printf("gate = %s  ",nodeM->G);
-		printf("source = %s  ",nodeM->S);
-		printf("body = %s  ",nodeM->B);
-		printf("lenght = %e  ",nodeM->L);
-		printf("width = %e\n",nodeM->W);
-		nodeM=nodeM->next;	
-	}
-
-	nodeB=rootB;
-	printf("\n---Transistors BJT---\n");
-	while(nodeB!=NULL){
-		printf("name = %s  ",nodeB->name);
-		printf("collector = %s  ",nodeB->C);
-		printf("base = %s  ",nodeB->B);
-		printf("emitter = %s  ",nodeB->E);
-		printf("area = %d\n",nodeB->area);
-	
-		nodeB=nodeB->next;	
-	};
-
-
+	printNodeList();
+	printf("\n%d",NodeCounter);
 
 }

@@ -47,26 +47,6 @@ double convertStringToDouble(char* string1){
 	
 	if(string[i]=='\0'){res=res*negative;return(res);}
 	
-	
-	
-	
-	// while((string[i] != '.') && (string[i] != '\0') && (string[i] != 'e')){
-		// res = res*10 +(string[i] - '0');
-		// printf("%e\n",res);
-		// i++;
-	// }
-	// if(string[i]=='\0'){res=res*negative;return(res);}
-	// i++;
-
-	// j=-1;
-	// while((string[i] != 'e') && (string[i] != '\0')){
-		// d = string[i] - '0';
-		// res = res + (double)d*(pow(10,j));	
-		// j--;
-		// if(string[i]=='\0'){res=res*negative;return(res);}
-		// i++;
-	// }
-
 	res=res*negative;
 	
 	i++;

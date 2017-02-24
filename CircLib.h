@@ -101,6 +101,14 @@ typedef struct Bjt{
   
 }BjtT;
 
+typedef struct Node{
+  
+  char *name;
+  int code;
+  struct Node *next;
+  
+}NodeT;
+
 
 //Dilwsi twn katholikwn metavlitwn tou programmatos (roots kai elegxou gia geiwsi)
 VoltT *rootV;
@@ -111,8 +119,20 @@ InductorT *rootL;
 DiodeT *rootD;
 MosT *rootM;
 BjtT *rootB;
+NodeT *rootN;
+int NodeCounter;
 int groundflag;
 
-
+void initCirc();
+void createV(FILE *k);
+void createI(FILE *k);
+void createR(FILE *k);
+void createC(FILE *k);
+void createL(FILE *k);
+void createD(FILE *k);
+void createM(FILE *k);
+void createB(FILE *k);
+void printLists();
+void CreateNode(char *string);
 
 #endif
