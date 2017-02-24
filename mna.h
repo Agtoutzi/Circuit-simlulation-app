@@ -19,6 +19,7 @@ gsl_vector *x;
 gsl_permutation * p;		//dianusma meta8esewn
 
 void CreateMna();
-void lu();
-void Cholesky();
+void solve();
+void solve_spd();
+void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
 #endif

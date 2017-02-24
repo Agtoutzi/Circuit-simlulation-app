@@ -23,7 +23,7 @@ void initCirc(){
 	groundflag=0;
 	SPD=0;
 	ITER=0;
-	itol_value=0;
+	itol_value=1e-3;
 	plot=0;
 	m2=0;
 	hash_count=1;

@@ -1,5 +1,5 @@
-#ifndef MNA_H
-#define MNA_H
+#ifndef FREE_H
+#define FREE_H
 
 
 void freeAllmem();

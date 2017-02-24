@@ -18,6 +18,8 @@
 #include <gsl/gsl_cblas.h>
 #include <gsl/gsl_linalg.h>
 
+
+
 int main(int argc, char *argv[]){
 
 	FILE *f=NULL;
@@ -78,12 +80,12 @@ int main(int argc, char *argv[]){
 	CreateMna();
 
 	/*EPILUSH SUSTHMATOS*/			//Periptwsi an den exoume diavasei katholou .OPTIONS ?????????
-	if(SPD==0 && ITER==0){lu();
-	}else if(SPD==1 && ITER==0){Cholesky();
-	}else if(SPD==0 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
-	}else if(SPD==1 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
-	}else{printf("Wrong SPD & ITER values.\nProgram terminated\n");exit(1);}
-
+	if(SPD==0){
+		solve();
+	}
+	else{
+		solve_spd();
+	}
 	freeAllmem();
 	return(0);
 }
