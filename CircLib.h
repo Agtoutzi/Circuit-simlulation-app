@@ -111,6 +111,9 @@ DiodeT *rootD;
 MosT *rootM;
 BjtT *rootB;
 int groundflag;
+int cholesky;
+int plot;
+int print;
 int m2; 				//plh8os autepagwgwn kai phgwn tashs				
 int hash_count;
 

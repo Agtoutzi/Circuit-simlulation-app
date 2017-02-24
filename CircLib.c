@@ -5,6 +5,9 @@
 #include "CircLib.h"
 #include "hash.h"
 #include "mna.h"
+#include "options.h"
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_cblas.h>
 
 //Sinartisi arxikopoiisis twn katholikwn metavlitwn
 void initCirc(){
@@ -18,7 +21,9 @@ void initCirc(){
 	rootM=NULL;
 	rootB=NULL;
 	groundflag=0;
-	
+	cholesky=0;
+	plot=0;
+	print=0;
 	m2=0;
 	hash_count=1;
 	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
