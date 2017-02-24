@@ -1,42 +1,72 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 #include "CircLib.h"
 
 
 //Sinartisi pou dexetai string se morfi scientific double, px 1.43e5, 4.23e-5, 3.224e+9, -324.2e4, +324.124e+2 ktl...
 //kai epistrefei to antistoixo double arithmo
-double convertStringToDouble(char* string){
+double convertStringToDouble(char* string1){
 
 	int negative=1;
 	int negativeExp=1;
-	int i=0,j=0,exponent=0;
+	int i=0; int j=0; int exponent=0;
 	char c;
 	int d;
 	double res = 0;
+	char *string;
+	strcpy(string,string1);
 	
 	if(string[i]=='-'){
 		negative=-1;
 		i++;
 	}
-	
+
 	if(string[i]=='+'){
 		i++;
 	}
 	
-	while((string[i] )!= '.'){
+	do{
 		res = res*10 +(string[i] - '0');
 		i++;
-	}
-	i++;
+	}while((string[i] != '.') && (string[i] != '\0') && (string[i] != 'e'));
+
+	if(string[i]=='\0'){res=res*negative;return(res);}
 	
-	j=-1;
-	while(string[i] != 'e'){
-		d = string[i] - '0';
-		res = res + (double)d*(pow(10,j));	
-		j--;
+	if(string[i]=='.'){
 		i++;
+		j=-1;
+		while((string[i] != 'e') && (string[i] != '\0')){
+			d = string[i] - '0';
+			res = res + (double)d*(pow(10,j));
+			j--;
+			i++;
+		}
 	}
 	
+	if(string[i]=='\0'){res=res*negative;return(res);}
+	
+	
+	
+	
+	// while((string[i] != '.') && (string[i] != '\0') && (string[i] != 'e')){
+		// res = res*10 +(string[i] - '0');
+		// printf("%e\n",res);
+		// i++;
+	// }
+	// if(string[i]=='\0'){res=res*negative;return(res);}
+	// i++;
+
+	// j=-1;
+	// while((string[i] != 'e') && (string[i] != '\0')){
+		// d = string[i] - '0';
+		// res = res + (double)d*(pow(10,j));	
+		// j--;
+		// if(string[i]=='\0'){res=res*negative;return(res);}
+		// i++;
+	// }
+
 	res=res*negative;
 	
 	i++;
@@ -61,39 +91,29 @@ void createV(FILE *k){
 	char d[100];
 	VoltT *new;
 	
-	printf("point0\n");
-	new = (VoltT*)malloc(sizeof(VoltT));
-	printf("point1\n");
+	new = (VoltT*) malloc(sizeof(VoltT));
+
 	fscanf(k,"%s",d);
-	printf("point2\n");
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
-	printf("point3\n");
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
-	printf("point4\n");
+	
 	fscanf(k,"%s",d);
-	printf("point5\n");
-//	new->node1=(char*)malloc(sizeof(char)*strlen(d));
-	printf("point6\n");
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	printf("point7\n");
 	if(d[0]=='0'){groundflag=1;}
-	printf("point8\n");
+	
 	fscanf(k,"%s",d);
-	printf("point9\n");
-//	new->node2=(char*)malloc(sizeof(char)*strlen(d));
-	printf("point10\n");
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	printf("point11\n");
 	if(d[0]=='0'){groundflag=1;}
-	printf("point12\n");
+	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
-	printf("point13\n");
-	new->next=rootV;
-	rootV=new;
-	printf("point14\n");
+	
+	new->next = rootV;
+	rootV = new;
+	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	printf("point15\n");
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia pigi reumatos, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn reumatos
@@ -105,16 +125,16 @@ void createI(FILE *k){
 	new = (AmperT*) malloc(sizeof(AmperT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
@@ -138,22 +158,22 @@ void createR(FILE *k){
 	new = (ResistanceT*)malloc(sizeof(ResistanceT));
 	
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->value=convertStringToDouble(d);
-	
+	printf("double = %e\n",convertStringToDouble(d));
 	new->next=rootR;
 	rootR=new;
 	
@@ -170,16 +190,16 @@ void createC(FILE *k){
 	new = (CapacitorT*) malloc(sizeof(CapacitorT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
@@ -202,16 +222,16 @@ void createL(FILE *k){
 	new = (InductorT*) malloc(sizeof(InductorT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
@@ -235,16 +255,16 @@ void createD(FILE *k){
 	new = (DiodeT*) malloc(sizeof(DiodeT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->node1=(char*)malloc(sizeof(char)*strlen(d));
+	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->node2=(char*)malloc(sizeof(char)*strlen(d));
+	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
 	if(d[0]=='0'){groundflag=1;}
 	
@@ -274,26 +294,26 @@ void createM(FILE *k){
 	new = (MosT*) malloc(sizeof(MosT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->D=(char*)malloc(sizeof(char)*strlen(d));
+	new->D=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->D , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->G=(char*)malloc(sizeof(char)*strlen(d));
+	new->G=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->G , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->S=(char*)malloc(sizeof(char)*strlen(d));
+	new->S=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->S , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->B=(char*)malloc(sizeof(char)*strlen(d));
+	new->B=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->B , d);
 	if(d[0]=='0'){groundflag=1;}
 	
@@ -322,21 +342,21 @@ void createB(FILE *k){
 	new = (BjtT*) malloc(sizeof(BjtT));
 
 	fscanf(k,"%s",d);
-	new->name=(char*)malloc(sizeof(char)*strlen(d));
+	new->name=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->name , d);
 	
 	fscanf(k,"%s",d);
-	new->C=(char*)malloc(sizeof(char)*strlen(d));
+	new->C=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->C , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->B=(char*)malloc(sizeof(char)*strlen(d));
+	new->B=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->B , d);
 	if(d[0]=='0'){groundflag=1;}
 	
 	fscanf(k,"%s",d);
-	new->E=(char*)malloc(sizeof(char)*strlen(d));
+	new->E=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->E , d);
 	if(d[0]=='0'){groundflag=1;}
 	

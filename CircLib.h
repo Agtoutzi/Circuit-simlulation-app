@@ -65,9 +65,9 @@ typedef struct Diode{
   char *name;
   char *node1;
   char *node2;
-  double value;
+//  double value;
   int area;
-  //pedio model_name
+  // char *modelname; 				pedio model_name
   struct Diode *next;
   
 }DiodeT;
@@ -80,7 +80,7 @@ typedef struct Mos{
   char *G;
   char *S;
   char *B;
-  //model_name
+  //char *modelname;					model_name
   double L;//to opoio einai iso me value
   double W;//to oopoio einai iso me value 
   
@@ -114,19 +114,5 @@ BjtT *rootB;
 int groundflag;
 
 
-//Sinartisi arxikopoiisis twn katholikwn metavlitwn
-void initCirc(){
-
-	rootV=NULL;
-	rootI=NULL;
-	rootR=NULL;
-	rootC=NULL;
-	rootL=NULL;
-	rootD=NULL;
-	rootM=NULL;
-	rootB=NULL;
-	groundflag=0;
-
-}
 
 #endif

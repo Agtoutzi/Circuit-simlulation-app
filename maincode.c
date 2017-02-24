@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include "CircLib.h"
-#include "createComponent.h"
+#include "createComponent.c"
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+
+//Omada ergasias
+// Ioanna Pantelopoulou
+// Dimitris Datsogiannis
+// Dimitris Garyfallou
+// Aggelos Toutziaris
+
+
+
 
 int main(int argc, char *argv[]){
 
@@ -25,7 +38,7 @@ int main(int argc, char *argv[]){
 	c=fgetc(f);
 	do{
 		switch(c) {
-			case 'R':{createR(f);break;}
+			case 'R' :{createR(f);break;}
 			case 'V':{createV(f);break;}
 			case 'I':{createI(f);break;}
 			case 'C':{createC(f);break;}
@@ -33,109 +46,116 @@ int main(int argc, char *argv[]){
 			case 'D':{createD(f);break;}
 			case 'M':{createM(f);break;}
 			case 'B':{createB(f);break;}
+			case 'r' :{createR(f);break;}
+			case 'v':{createV(f);break;}
+			case 'i':{createI(f);break;}
+			case 'c':{createC(f);break;}
+			case 'l':{createL(f);break;}
+			case 'd':{createD(f);break;}
+			case 'm':{createM(f);break;}
+			case 'b':{createB(f);break;}
 			case '*':{
 			c=fgetc(f);
 			while(c!='\n'&&(c!=EOF)){c=fgetc(f);}/*MOVE TO NEXT LINE*/break;}
 			default:{break;}
 		}
-		if(c!=EOF){c=fgetc(f);putchar(c);}
+		if(c!=EOF){c=fgetc(f);}
 	}while(!feof(f));
-	printf("point16\n");
+
 	fclose(f);
-	printf("point17\n");
+
 //An den yparxei komvos 0 (geiwsi) to programma termatizei
 	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
 	
-printf("point18\n");
 //Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
 
 	nodeV=rootV;
+	printf("\n---Volt---\n");
 	while(nodeV!=NULL){
-		printf("\n---Volt---\n");
-		printf("name = %s\n",nodeV->name);
-		printf("node1 = %s\n",nodeV->node1);
-		printf("node2 = %s\n",nodeV->node2);
+		printf("name = %s  ",nodeV->name);
+		printf("node1 = %s  ",nodeV->node1);
+		printf("node2 = %s  ",nodeV->node2);
 		printf("value = %e\n",nodeV->value);
 	
 		nodeV=nodeV->next;	
 	}
-printf("point19\n");
+
 	nodeI=rootI;
+	printf("\n---Amper---\n");
 	while(nodeI!=NULL){
-		printf("\n---Amper---\n");
-		printf("name = %s\n",nodeI->name);
-		printf("node1 = %s\n",nodeI->node1);
-		printf("node2 = %s\n",nodeI->node2);
+		printf("name = %s  ",nodeI->name);
+		printf("node1 = %s  ",nodeI->node1);
+		printf("node2 = %s  ",nodeI->node2);
 		printf("value = %e\n",nodeI->value);
 	
 		nodeI=nodeI->next;	
 	}
 
 	nodeR=rootR;
+	printf("\n---Resistors---\n");
 	while(nodeR!=NULL){
-		printf("\n---Resistance---\n");
-		printf("name = %s\n",nodeR->name);
-		printf("node1 = %s\n",nodeR->node1);
-		printf("node2 = %s\n",nodeR->node2);
+		printf("name = %s ",nodeR->name);
+		printf("node1 = %s ",nodeR->node1);
+		printf("node2 = %s ",nodeR->node2);
 		printf("value = %e\n",nodeR->value);
 	
 		nodeR=nodeR->next;	
 	}
 
 	nodeC=rootC;
+	printf("\n---Capacitors---\n");
 	while(nodeC!=NULL){
-		printf("\n---Capacitor---\n");
-		printf("name = %s\n",nodeC->name);
-		printf("node1 = %s\n",nodeC->node1);
-		printf("node2 = %s\n",nodeC->node2);
+		printf("name = %s ",nodeC->name);
+		printf("node1 = %s  ",nodeC->node1);
+		printf("node2 = %s  ",nodeC->node2);
 		printf("value = %e\n",nodeC->value);
 	
 		nodeC=nodeC->next;	
 	}
 
 	nodeL=rootL;
+	printf("\n---Inductors---\n");
 	while(nodeL!=NULL){
-		printf("\n---Inductor---\n");
-		printf("name = %s\n",nodeL->name);
-		printf("node1 = %s\n",nodeL->node1);
-		printf("node2 = %s\n",nodeL->node2);
+		printf("name = %s  ",nodeL->name);
+		printf("node1 = %s  ",nodeL->node1);
+		printf("node2 = %s  ",nodeL->node2);
 		printf("value = %e\n",nodeL->value);
 	
 		nodeL=nodeL->next;	
 	}
 
 	nodeD=rootD;
+	printf("\n---Diodes---\n");
 	while(nodeD!=NULL){
-		printf("\n---Diode---\n");
-		printf("name = %s\n",nodeD->name);
-		printf("node1 = %s\n",nodeD->node1);
-		printf("node2 = %s\n",nodeD->node2);
-		printf("value = %e\n",nodeD->value);
+		printf("name = %s  ",nodeD->name);
+		printf("node1 = %s  ",nodeD->node1);
+		printf("node2 = %s  ",nodeD->node2);
+//		printf("value = %e  ",nodeD->value);
 		printf("area = %d\n",nodeD->area);
 	
 		nodeD=nodeD->next;	
 	}
 
 	nodeM=rootM;
+	printf("\n---Transistors MOS---\n");
 	while(nodeM!=NULL){
-		printf("\n---Transistor MOS---\n");
-		printf("name = %s\n",nodeM->name);
-		printf("drain = %s\n",nodeM->D);
-		printf("gate = %s\n",nodeM->G);
-		printf("source = %s\n",nodeM->S);
-		printf("body = %s\n",nodeM->B);
-		printf("lenght = %e\n",nodeM->L);
+		printf("name = %s  ",nodeM->name);
+		printf("drain = %s  ",nodeM->D);
+		printf("gate = %s  ",nodeM->G);
+		printf("source = %s  ",nodeM->S);
+		printf("body = %s  ",nodeM->B);
+		printf("lenght = %e  ",nodeM->L);
 		printf("width = %e\n",nodeM->W);
 		nodeM=nodeM->next;	
 	}
 
 	nodeB=rootB;
+	printf("\n---Transistors BJT---\n");
 	while(nodeB!=NULL){
-		printf("\n---Transistor BJT---\n");
-		printf("name = %s\n",nodeB->name);
-		printf("collector = %s\n",nodeB->C);
-		printf("base = %s\n",nodeB->B);
-		printf("emitter = %s\n",nodeB->E);
+		printf("name = %s  ",nodeB->name);
+		printf("collector = %s  ",nodeB->C);
+		printf("base = %s  ",nodeB->B);
+		printf("emitter = %s  ",nodeB->E);
 		printf("area = %d\n",nodeB->area);
 	
 		nodeB=nodeB->next;	
