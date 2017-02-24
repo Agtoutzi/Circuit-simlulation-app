@@ -6,13 +6,12 @@
 
 
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include "hash.h"
 #include "CircLib.h"
+#include "hash.h"
 #include "mna.h"
-
 
 
 int main(int argc, char *argv[]){
@@ -31,7 +30,7 @@ int main(int argc, char *argv[]){
 
 	
 	initCirc();
-	
+
 	
 	f=fopen(argv[1],"r");			//Anoigma tou arxeiou
 	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
@@ -73,14 +72,14 @@ int main(int argc, char *argv[]){
 
 //	printLists();
 
-CreateMna();
+	CreateMna();
 	
 	//HASHING
 
 	
 //	printNodes();
 
-//	printHash();
+	printHash();
 //	printHash1();
 	
 }

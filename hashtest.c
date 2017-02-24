@@ -1,10 +1,13 @@
 #define _XOPEN_SOURCE 500 /* Enable certain library functions (strdup) on linux. See feature_test_macros(7) */
  
-#include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <string.h>
- 
+#include "CircLib.h"
+#include "hash.h"
+#include "mna.h"
+
 struct entry_s {
 char *key;
 char *value;

@@ -1,9 +1,6 @@
 
-#ifndef STRUCTS_H
-#define STRUCTS_H
-
-
-
+#ifndef MNA_H
+#define MNA_H
 
 double **A;			// 2D pinakas aristerou melous eksiswshs A ( double, mege8ous : [(n-1)+m2] x [(n-1)+m2] )
 double *temp;			//ka8e grammi tou pinaka				

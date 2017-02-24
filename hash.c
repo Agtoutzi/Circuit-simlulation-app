@@ -3,7 +3,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 #include <string.h>
+#include "CircLib.h"
 #include "hash.h"
 #include "mna.h"
 
@@ -37,9 +41,8 @@ hashtable_t *ht_create( int size ) {
 /* Hash a string for a particular hash table. */
 int ht_hash( hashtable_t *hashtable, char *key ) {
 
-	unsigned long int hashval;
+	unsigned long int hashval=0;
 	int i = 0;
-
 	/* Convert our string to an integer */
 	while( hashval < ULONG_MAX && i < strlen( key ) ) {
 		hashval = hashval << 8;
@@ -80,7 +83,6 @@ void ht_set( hashtable_t *hashtable, char *key, char *value ) {
 	entry_t *last = NULL;
 
 	bin = ht_hash( hashtable, key );
-
 	next = hashtable->table[ bin ];
 
 	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
@@ -117,6 +119,7 @@ void ht_set( hashtable_t *hashtable, char *key, char *value ) {
 
 /* Retrieve a key-value pair from a hash table. */
 char *ht_get( hashtable_t *hashtable, char *key ) {
+	
 	int bin = 0;
 	entry_t *pair;
 
@@ -124,13 +127,14 @@ char *ht_get( hashtable_t *hashtable, char *key ) {
 
 	/* Step through the bin, looking for our value. */
 	pair = hashtable->table[ bin ];
+
 	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
 		pair = pair->next;
 	}
 
 	/* Did we actually find anything? */
 	if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
-		return (0);
+		return ("0");
 
 	} else {
 		return pair->value;

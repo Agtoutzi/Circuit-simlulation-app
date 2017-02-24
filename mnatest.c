@@ -1,10 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
+#include "CircLib.h"
+#include "hash.h"
 #include "mna.h"
 
-
 int main(int argc, char* argv[]){
+
 
 //Desmeush pinakwn eksiswsewn
 
@@ -42,12 +45,6 @@ int main(int argc, char* argv[]){
 		}
 		current=current->next;
 	}
-	
-	
-	
-	
-	
-	
 	
 	printf(" \n M2= %d \n N=%d \n",m2,hash_count);
 	printf(" A\n");

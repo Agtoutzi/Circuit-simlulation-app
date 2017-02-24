@@ -1,3 +1,6 @@
+
+#ifndef HASH_H
+#define HASH_H
 //Orismos structs
 struct entry_s {
 	char *key;
@@ -21,3 +24,4 @@ entry_t *ht_newpair( char *key, char *value );
 void ht_set( hashtable_t *hashtable, char *key, char *value );
 char *ht_get( hashtable_t *hashtable, char *key );
 
+#endif

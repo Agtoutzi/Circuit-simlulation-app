@@ -137,8 +137,10 @@ void createL(FILE *k);
 void createD(FILE *k);
 void createM(FILE *k);
 void createB(FILE *k);
-void printLists();
 void CreateNode(char *string);
+void printLists();
 void printNodes();
+void printHash();
+void printHash1();
 
 #endif

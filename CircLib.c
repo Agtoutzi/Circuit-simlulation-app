@@ -22,7 +22,8 @@ void initCirc(){
 	
 	m2=0;
 	hash_count=1;
-	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
+	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
+
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia pigi tasis, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn tasis
@@ -362,7 +363,6 @@ void CreateNode(char *string){
 	strcpy(temp->name ,string);
 
 	sprintf(str, "%d", hash_count);
-//	printf("%s\n",str);
 	ht_set(hashtable, temp->name, str);
 	hash_count++;
 	temp->next=rootN;
@@ -496,7 +496,6 @@ void printHash(){
 }
 
 void printHash1(){
-
 	int i;
 	entry_t *next = NULL;
 	for(i=0;i<hashtable->size;i++){
@@ -505,7 +504,6 @@ void printHash1(){
 			printf("----%s = %s----\n",next->key,next->value);
 			next = next->next;
 		}
-	
 	}
 }
 		
