@@ -11,7 +11,7 @@ R7 8 0 1e3
 R8 4 0 10
 *V2 2 4 10
 
-.OPTIONS SPD
-*.DC
-.DC I2 1e-3 2e-3 1e-4
+.OPTIONS SPD ITER
+.DC
+*.DC I2 1e-3 2e-3 1e-4
 .PLOT V(1) V(4) V(2) V(6)
