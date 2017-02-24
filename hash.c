@@ -90,11 +90,10 @@ void ht_set( hashtable_t *hashtable, char *key, char *value ) {
 		next = next->next;
 	}
 
-	/* There's already a pair.  Let's replace that string. */
+	/* There's already a pair.  Do nothing. */
 	if( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
 
-		free( next->value );
-		next->value = strdup( value );
+		return;
 
 	/* Nope, could't find it.  Time to grow a pair. */
 	} else {
@@ -114,6 +113,7 @@ void ht_set( hashtable_t *hashtable, char *key, char *value ) {
 			newpair->next = next;
 			last->next = newpair;
 		}
+		if(strcmp(value,"0")!=0){hash_count++;}		//an o komvos einai i geiwsi, den auksanoume to hash_count
 	}
 }
 
@@ -134,7 +134,7 @@ char *ht_get( hashtable_t *hashtable, char *key ) {
 
 	/* Did we actually find anything? */
 	if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
-		return ("0");
+		return (NULL);
 
 	} else {
 		return pair->value;

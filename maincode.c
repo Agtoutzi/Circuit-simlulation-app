@@ -77,9 +77,7 @@ int main(int argc, char *argv[]){
 	//HASHING
 
 	
-//	printNodes();
 
 	printHash();
-//	printHash1();
 	
 }

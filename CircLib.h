@@ -100,16 +100,6 @@ typedef struct Bjt{
   
 }BjtT;
 
-typedef struct Node{
-  
-  char *name;
-  
-//  int code;
-
-  
-  struct Node *next;
-  
-}NodeT;
 
 //Dilwsi twn katholikwn metavlitwn tou programmatos (roots kai elegxou gia geiwsi)
 VoltT *rootV;
@@ -121,12 +111,9 @@ DiodeT *rootD;
 MosT *rootM;
 BjtT *rootB;
 int groundflag;
-int m2; 				//plh8os autepagwgwn kai phgwn tashs
-NodeT *rootN;					
+int m2; 				//plh8os autepagwgwn kai phgwn tashs				
 int hash_count;
 
-
-	
 
 void initCirc();
 void createV(FILE *k);
@@ -137,10 +124,8 @@ void createL(FILE *k);
 void createD(FILE *k);
 void createM(FILE *k);
 void createB(FILE *k);
-void CreateNode(char *string);
+void NewHashEntry(char *string);
 void printLists();
-void printNodes();
 void printHash();
-void printHash1();
 
 #endif

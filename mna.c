@@ -15,6 +15,8 @@ void CreateMna(){
 
 
 	int i,j;
+	int b=1;
+	int n= hash_count-1;
 
 	sizeA = (hash_count-1)+m2;
 	
@@ -31,57 +33,71 @@ void CreateMna(){
 	
 	//Diatrexoume ti lista twn antistasewn kai simplirwnoume katallila to 1o n-1 * n-1 kommati tou pinaka A
 	
-	ResistanceT *current=rootR;
+	ResistanceT *currentR=rootR;
 	
-	while(current!=NULL){
-		i=atoi(ht_get(hashtable,current->node1));
-		j=atoi(ht_get(hashtable,current->node2));
+	while(currentR!=NULL){
+		i=atoi(ht_get(hashtable,currentR->node1));
+		j=atoi(ht_get(hashtable,currentR->node2));
 		
-		if(i!=0){A[i-1][i-1]+=1/current->value;}
-		if(j!=0){A[j-1][j-1]+=1/current->value;}
+		if(i!=0){A[i-1][i-1]+=1/currentR->value;}
+		if(j!=0){A[j-1][j-1]+=1/currentR->value;}
 		if(i!=0&&j!=0){
-			A[i-1][j-1]-=1/current->value;
-			A[j-1][i-1]-=1/current->value;
+			A[i-1][j-1]-=1/currentR->value;
+			A[j-1][i-1]-=1/currentR->value;
 		}
-		current=current->next;
+		currentR=currentR->next;
 	}
 	
-	//diko mou emfanish twn phgwn tashs ston pinaka A
+	//Diatrexoume ti lista twn pigwn tasis kai simplirwnoume katallila to 2o n-1 * m2 kommati tou pinaka A
+	// kai to 2o m2*1 kommati tou pinaka B
 	
-	VoltT *runner=rootV;
-	int k,l;
-	int b=1;
-	int n= hash_count-1;
-	while(runner != NULL){
-	      k = atoi(ht_get(hashtable,runner->node1));    //vlepoume metaksu poiown komvwn vrisketai h phgh tashs 
-	      l = atoi(ht_get(hashtable,runner->node2));
+	VoltT *currentV=rootV;
+
+	while(currentV != NULL){
+	      i = atoi(ht_get(hashtable,currentV->node1));    //vlepoume metaksu poiown komvwn vrisketai h phgh tashs 
+	      j = atoi(ht_get(hashtable,currentV->node2));
 	
-	      if(k!=0){A[n-1+b][k-1]+=1;}		   //grammh-sthlh
-	      if(l!=0){A[n-1+b][l-1]-=1;}
+	      if(i!=0){A[n-1+b][i-1]=1;}		   //grammh-sthlh
+	      if(j!=0){A[n-1+b][j-1]=-1;}
 	      
-	      if(k!=0){A[k-1][n-1+b]+=1;}		//sthlh-grammh
-	      if(l!=0){A[l-1][n-1+b]-=1;}
-	      if((k!=0)||(l!=0)){B[n-1+b]=runner->value;}	//vazw ston B tis times twn tasewn
+	      if(i!=0){A[i-1][n-1+b]=1;}		//sthlh-grammh
+	      if(j!=0){A[j-1][n-1+b]=-1;}
+	      if((i!=0)||(j!=0)){B[n-1+b]=currentV->value;}	//vazw ston B tis times twn tasewn
 	      
 	      b++;
-	      runner= runner ->next;
+	      currentV= currentV ->next;
 	
 	}
+
+	//Diatrexoume ti lista twn piniwn kai simplirwnoume katallila to 2o n-1 * m2 kommati tou pinaka A
+
+	InductorT *currentL=rootL;
+	while(currentL != NULL){
+	      i = atoi(ht_get(hashtable,currentL->node1));    //vlepoume metaksu poiown komvwn vrisketai to pinio 
+	      j = atoi(ht_get(hashtable,currentL->node2));
 	
-	//diko mou phges reumatos sto deksi melos tis prosthetw
-	
-	AmperT *run=rootI;
-	int p,q;
-	//int n= hash_count-1;
-	while(run != NULL){
-	      p = atoi(ht_get(hashtable,run->node1));    //vlepoume metaksu poiown komvwn vrisketai h phgh tashs 
-	      q = atoi(ht_get(hashtable,run->node2));
-	
-	      if((p!=0){B[p-1]+=run->value;}
-	      if(q!=0){B[q-1]-=run->value;}
+	      if(i!=0){A[n-1+b][i-1]=1;}		   //grammh-sthlh
+	      if(j!=0){A[n-1+b][j-1]=-1;}
 	      
-	     // printf("p = %d q = %d\n",p,q);
-	      run = run ->next;
+	      if(i!=0){A[i-1][n-1+b]=1;}		//sthlh-grammh
+	      if(j!=0){A[j-1][n-1+b]=-1;}
+ 
+	      b++;
+	      currentL= currentL ->next;
+	}
+	
+	//Diatrexoume ti lista twn pigwn reumatwn kai simplirwnoume katallila to 1o n-1 * 1 kommati tou pinaka B
+	
+	AmperT *currentI=rootI;
+
+	while(currentI != NULL){
+	      i = atoi(ht_get(hashtable,currentI->node1));    //vlepoume metaksu poiown komvwn vrisketai h phgh tashs 
+	      j = atoi(ht_get(hashtable,currentI->node2));
+	
+	      if(i!=0){B[i-1]-=currentI->value;}
+	      if(j!=0){B[j-1]+=currentI->value;}
+	      
+	      currentI = currentI ->next;
 	
 	}
 	
@@ -92,14 +108,14 @@ void CreateMna(){
 	for(i=0;i<sizeA;i++){
 		for(j=0;j<sizeA;j++){
 
-			printf(" %lf ",A[i][j]);
+			printf(" %.3lf ",A[i][j]);
 		}
 		printf("\n");
 	}
 
 	printf(" B\n");
 	for(i=0;i<sizeB;i++){
-		printf(" %lf ",B[i]);
+		printf(" %.3lf ",B[i]);
 	}
 
 	printf("\n");

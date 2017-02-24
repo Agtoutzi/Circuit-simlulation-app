@@ -17,7 +17,6 @@ void initCirc(){
 	rootD=NULL;
 	rootM=NULL;
 	rootB=NULL;
-	rootN=NULL;
 	groundflag=0;
 	
 	m2=0;
@@ -41,13 +40,13 @@ void createV(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -74,13 +73,13 @@ void createI(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -109,13 +108,13 @@ void createR(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -143,13 +142,13 @@ void createC(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -177,13 +176,13 @@ void createL(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -212,19 +211,15 @@ void createD(FILE *k){
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node1 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->node2 , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
-	// fscanf(k,"%s",d);
-	// new->value=convertStringToDouble(d);
-
-
 //	Model Name
 //	fscanf(k,"%s",d);
 //	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
@@ -258,25 +253,25 @@ void createM(FILE *k){
 	fscanf(k,"%s",d);
 	new->D=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->D , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->G=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->G , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->S=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->S , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->B=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->B , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 //	Model Name
@@ -313,19 +308,19 @@ void createB(FILE *k){
 	fscanf(k,"%s",d);
 	new->C=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->C , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->B=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->B , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
 	new->E=(char*)malloc(sizeof(char)*(strlen(d)+1));
 	strcpy(new->E , d);
-	CreateNode(d);
+	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 //	Model Name
@@ -346,28 +341,17 @@ void createB(FILE *k){
 }
 
 
-void CreateNode(char *string){
+void NewHashEntry(char *string){
 
 	char str[12];
 	
-
-	NodeT *temp=rootN;
-
-	while(temp!=NULL){
-		if(strcmp(string,temp->name)==0||((string[0]=='0')&&(string[1])=='\0')){return;}
-		temp=temp->next;
+	if(strcmp(string,"0")==0){
+		ht_set(hashtable, string, "0");
+		return;
 	}
 
-	temp = (NodeT*) malloc(sizeof(NodeT));
-	temp->name=(char*)malloc(sizeof(char)*(strlen(string)+1));
-	strcpy(temp->name ,string);
-
 	sprintf(str, "%d", hash_count);
-	ht_set(hashtable, temp->name, str);
-	hash_count++;
-	temp->next=rootN;
-	rootN=temp;
-
+	ht_set(hashtable, string, str);
 }
 
 //Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
@@ -476,32 +460,13 @@ void printLists(){
 	
 }
 
-
-void printNodes(){
- 	NodeT *current;	
-	current = rootN;
-	while(current!=NULL){				
-			printf("%s\n",current->name);
-			current = current ->next;	
-	}
-}
-
-
 void printHash(){
-	NodeT *temp=rootN;
-	while(temp!=NULL){
-		printf("%s = %s\n",temp->name, ht_get(hashtable,temp->name));
-		temp=temp->next;
-	}
-}
-
-void printHash1(){
 	int i;
 	entry_t *next = NULL;
 	for(i=0;i<hashtable->size;i++){
 		next = hashtable->table[i];
 		while(next != NULL) {
-			printf("----%s = %s----\n",next->key,next->value);
+			printf("%s = %s\n",next->key,next->value);
 			next = next->next;
 		}
 	}
