@@ -64,9 +64,8 @@ typedef struct Diode{
   char *name;
   char *node1;
   char *node2;
-  //  double value;
-  int area;
-  // char *modelname;
+  double area;
+  char *modelname;
   struct Diode *next;
   
 }DiodeT;
@@ -79,9 +78,9 @@ typedef struct Mos{
   char *G;
   char *S;
   char *B;
-  //char *modelname;
-  double L;//to opoio einai iso me value
-  double W;//to oopoio einai iso me value 
+  char *modelname;
+  double L;
+  double W; 
   
   struct Mos *next;
   
@@ -94,8 +93,8 @@ typedef struct Bjt{
   char *C;
   char *B;
   char *E;
-  //char *model_name;
-  int area;
+  char *modelname;
+  double area;
   struct Bjt *next;
   
 }BjtT;

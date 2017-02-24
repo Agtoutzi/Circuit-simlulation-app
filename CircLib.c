@@ -128,7 +128,7 @@ void createR(FILE *k){
 	
 	fscanf(k,"%s",d);
 	new->value=atof(d);
-//	printf("double = %e\n",convertStringToDouble(d));
+
 	new->next=rootR;
 	rootR=new;
 	
@@ -208,7 +208,7 @@ void createL(FILE *k){
 void createD(FILE *k){
 
 	char d[100];
-	char d1;
+	char *readElement;
 	DiodeT *new;
 
 	new = (DiodeT*) malloc(sizeof(DiodeT));
@@ -229,19 +229,13 @@ void createD(FILE *k){
 	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
-//	Model Name
-//	fscanf(k,"%s",d);
-//	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
-//	strcpy(new->modelname , d);
-	
-	
-	new->area=1;
-	d1=fgetc(k);
-	while(d1!='\n'&&(d1!=EOF)){
-		if(d1 != ' '){new->area=d1 - '0';}
-		d1=fgetc(k);
-	}
-		
+	fgets(d,10000,k);
+	readElement = strtok (d, " ,\t()\n");
+	new->modelname=strdup(readElement);
+	readElement = strtok (NULL, " ,\t()\n");
+	new->area=0.0;
+	if(readElement!=NULL){new->area=atof(readElement);}
+
 	new->next = rootD;
 	rootD = new;
 	
@@ -284,9 +278,9 @@ void createM(FILE *k){
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 //	Model Name
-//	fscanf(k,"%s",d);
-//	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
-//	strcpy(new->modelname , d);
+	fscanf(k,"%s",d);
+	new->modelname=(char*)malloc(sizeof(char)*(strlen(d)+1));
+	strcpy(new->modelname , d);
 
 	fscanf(k,"%s",d);
 	new->L=atof(d);
@@ -305,7 +299,7 @@ void createM(FILE *k){
 void createB(FILE *k){
 
 	char d[100];
-	char d1;
+	char *readElement;
 	BjtT *new;
 
 	new = (BjtT*) malloc(sizeof(BjtT));
@@ -332,18 +326,15 @@ void createB(FILE *k){
 	NewHashEntry(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
-//	Model Name
-//	fscanf(k,"%s",d);
-//	new->node2=(char*)malloc(sizeof(char)*(strlen(d)+1));
-//	strcpy(new->modelname , d);
-	
-	new->area=1;
-	d1=fgetc(k);
-	while(d1!='\n'&&(d1!=EOF)){
-		if(d1 != ' '){new->area=d1 - '0';}
-		d1=fgetc(k);
-	}
-	
+//	Model Name && area
+
+	fgets(d,10000,k);
+	readElement = strtok (d, " ,\t()\n");
+	new->modelname=strdup(readElement);
+	readElement = strtok (NULL, " ,\t()\n");
+	new->area=0.0;
+	if(readElement!=NULL){new->area=atof(readElement);}
+		
 	new->next = rootB;
 	rootB = new;
 
@@ -363,7 +354,7 @@ void NewHashEntry(char *string){
 	ht_set(hashtable, string, str);
 }
 
-//Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
+//Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..
 void printLists(){
 
 	VoltT *nodeV;
@@ -437,7 +428,7 @@ void printLists(){
 		printf("node1 = %s  ",nodeD->node1);
 		printf("node2 = %s  ",nodeD->node2);
 
-		printf("area = %d\n",nodeD->area);
+		printf("area = %.6lf\n",nodeD->area);
 	
 		nodeD=nodeD->next;	
 	}
@@ -462,13 +453,14 @@ void printLists(){
 		printf("collector = %s  ",nodeB->C);
 		printf("base = %s  ",nodeB->B);
 		printf("emitter = %s  ",nodeB->E);
-		printf("area = %d\n",nodeB->area);
+		printf("area = %.6lf\n",nodeB->area);
 	
 		nodeB=nodeB->next;	
 	};
 	
 }
 
+//Ektypwsi olwn twn stoixeiwn tou hashtable twn komvwn tou kyklwmatos..
 void printHash(){
 	int i;
 	entry_t *next = NULL;
@@ -480,4 +472,4 @@ void printHash(){
 		}
 	}
 }
-		
+

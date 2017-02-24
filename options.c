@@ -23,10 +23,9 @@ void read_options(FILE *f){
   char printable2[10000];
   char *readElement;
   const char delimiters[] = " ,\t()\n";
-  char *sweep_source_name;
   VoltT *nodeV;
   AmperT *nodeI;
-  int cnt,i,fid;
+  int cnt,fid;
   char *gt_id;
 
   fgets(printable,10000,f);	//diavazei olokliri ti grammi
@@ -40,7 +39,7 @@ void read_options(FILE *f){
 	    if (!(strcmp(readElement,"SPD"))){SPD=1;continue;
 	    }else if (!(strcmp(readElement,"ITER"))){ITER=1;continue;
 	    }else if (!(strcmp(readElement,"itol"))){itol_value=atof(strtok (NULL, delimiters));continue;
-	    }	//an meta to itol den yparxei kati, to programma tha skasei... (core dumped)
+	    }	//an meta to itol den yparxei kati, to programma tha skasei... (core dumped)(emeis ypothetoume oti tha yparxei sigoura..)
 	  }
 	  return;
   }

@@ -12,19 +12,14 @@
 
 void CreateMna(){
 
-
-//Desmeush pinakwn eksiswsewn
-
-//Desmeush kai arxikopoihsh aristerou merous eksiswshs A
-
-
 	int i,j;
 	int b=1;
 	int n= hash_count-1;
 	double temp;
 
+	//Desmeush pinakwn eksiswsewn
+	//Desmeush kai arxikopoihsh twn A,B,x
 	sizeA = (hash_count-1)+m2;
-	
 	A = gsl_matrix_calloc(sizeA,sizeA);
 	
 	sizeB = (hash_count-1)+m2;
@@ -260,7 +255,7 @@ void Cholesky(){
 	}	
 
 	if(dc_sweep==0){
-		gsl_linalg_cholesky_solve(A,B,x);				//solve cholesky
+		gsl_linalg_cholesky_solve(A,B,x);			//solve cholesky
 
 		printf("X vector \n");
 		for(i=0;i<sizeB;i++){

@@ -1,4 +1,4 @@
-//Omada ergasias
+// Omada ergasias
 // Ioanna Pantelopoulou
 // Dimitris Datsogiannis
 // Dimitris Garyfallou
@@ -13,6 +13,7 @@
 #include "hash.h"
 #include "mna.h"
 #include "options.h"
+#include "free.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
 #include <gsl/gsl_linalg.h>
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]){
 	FILE *f=NULL;
 
 	char c;
-	char option[100];
+//	char option[100];
 	
 	
 	initCirc();
@@ -72,24 +73,17 @@ int main(int argc, char *argv[]){
 
 
 //	printLists();
+//	printHash();
 
 	CreateMna();
 
-	/*EPILUSH SUSTHMATOS*/
+	/*EPILUSH SUSTHMATOS*/			//Periptwsi an den exoume diavasei katholou .OPTIONS ?????????
 	if(SPD==0 && ITER==0){lu();
-	}//else if(SPD==1 && ITER==0){Cholesky();
-	//}else if(SPD==0 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
-	//}else if(SPD==1 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
-	//}else{printf("Wrong SPD & ITER values.\nProgram terminated\n");exit(1);}
+	}else if(SPD==1 && ITER==0){Cholesky();
+	}else if(SPD==0 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
+	}else if(SPD==1 && ITER==1){printf("itol value: %lf\n",itol_value);	//sinartisi epilisis
+	}else{printf("Wrong SPD & ITER values.\nProgram terminated\n");exit(1);}
 
-	//printHash();
-
-	/*free gsl matrices..Isws mpei se sunarthsh*/
-	// na kanoume ola ta free
-
-	/*gsl_permutation_free(p);
-	gsl_vector_free(B);
-	gsl_matrix_free(A);
-	gsl_vector_free(x);
-	*/
+	freeAllmem();
+	return(0);
 }

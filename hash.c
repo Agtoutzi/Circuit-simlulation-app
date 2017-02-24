@@ -72,8 +72,6 @@ entry_t *ht_newpair( char *key, char *value ) {
 	}
 
 	newpair->next = NULL;
-//	printf("new pair OK\n");
-//	printf("%s = %s\n",newpair->key,newpair->value);
 	return newpair;
 }
 
