@@ -1,16 +1,17 @@
-#include <stdio.h>
-#include "CircLib.h"
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-
-
 //Omada ergasias
 // Ioanna Pantelopoulou
 // Dimitris Datsogiannis
 // Dimitris Garyfallou
 // Aggelos Toutziaris
 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "hash.h"
+#include "CircLib.h"
+#include "mna.h"
 
 
 
@@ -25,9 +26,12 @@ int main(int argc, char *argv[]){
 	DiodeT *nodeD;
 	MosT *nodeM;
 	BjtT *nodeB;
+
 	char c;
+
 	
 	initCirc();
+	
 	
 	f=fopen(argv[1],"r");			//Anoigma tou arxeiou
 	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
@@ -37,19 +41,19 @@ int main(int argc, char *argv[]){
 	c=fgetc(f);
 	do{
 		switch(c) {
-			case 'R' :{createR(f);break;}
-			case 'V':{createV(f);break;}
+			case 'R':{createR(f);break;}
+			case 'V':{createV(f);m2++;break;}
 			case 'I':{createI(f);break;}
 			case 'C':{createC(f);break;}
-			case 'L':{createL(f);break;}
+			case 'L':{createL(f);m2++;break;}
 			case 'D':{createD(f);break;}
 			case 'M':{createM(f);break;}
 			case 'B':{createB(f);break;}
-			case 'r' :{createR(f);break;}
-			case 'v':{createV(f);break;}
+			case 'r':{createR(f);break;}
+			case 'v':{createV(f);m2++;break;}
 			case 'i':{createI(f);break;}
 			case 'c':{createC(f);break;}
-			case 'l':{createL(f);break;}
+			case 'l':{createL(f);m2++;break;}
 			case 'd':{createD(f);break;}
 			case 'm':{createM(f);break;}
 			case 'b':{createB(f);break;}
@@ -65,10 +69,18 @@ int main(int argc, char *argv[]){
 
 //An den yparxei komvos 0 (geiwsi) to programma termatizei
 	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
-	
+
+
 //	printLists();
 
-	printNodeList();
-	printf("\n%d",NodeCounter);
+CreateMna();
+	
+	//HASHING
 
+	
+//	printNodes();
+
+//	printHash();
+//	printHash1();
+	
 }

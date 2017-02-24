@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "CircLib.h"
-
+#include "hash.h"
+#include "mna.h"
 
 //Sinartisi arxikopoiisis twn katholikwn metavlitwn
 void initCirc(){
@@ -18,70 +19,12 @@ void initCirc(){
 	rootB=NULL;
 	rootN=NULL;
 	groundflag=0;
-	NodeCounter=1;
+	
+	m2=0;
+	hash_count=1;
+	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
 }
 
-/*
-//Sinartisi pou dexetai string se morfi scientific double, px 1.43e5, 4.23e-5, 3.224e+9, -324.2e4, +324.124e+2 ktl...
-//kai epistrefei to antistoixo double arithmo
-double convertStringToDouble(char* string1){
-
-	int negative=1;
-	int negativeExp=1;
-	int i=0; int j=0; int exponent=0;
-	char c;
-	int d;
-	double res = 0;
-	char *string;
-	strcpy(string,string1);
-	
-	if(string[i]=='-'){
-		negative=-1;
-		i++;
-	}
-
-	if(string[i]=='+'){
-		i++;
-	}
-	
-	do{
-		res = res*10 +(string[i] - '0');
-		i++;
-	}while((string[i] != '.') && (string[i] != '\0') && (string[i] != 'e'));
-
-	if(string[i]=='\0'){res=res*negative;return(res);}
-	
-	if(string[i]=='.'){
-		i++;
-		j=-1;
-		while((string[i] != 'e') && (string[i] != '\0')){
-			d = string[i] - '0';
-			res = res + (double)d*(pow(10,j));
-			j--;
-			i++;
-		}
-	}
-	
-	if(string[i]=='\0'){res=res*negative;return(res);}
-	
-	res=res*negative;
-	
-	i++;
-	
-	if(string[i]=='-'){negativeExp=-1;i++;}
-	if(string[i]=='+'){i++;}
-	
-	while((string[i] )!= '\0'){
-		exponent = exponent*10 +(string[i] - '0');
-		i++;
-	}
-	
-	exponent=exponent*negativeExp;
-	res=res*(pow(10,exponent));
-	
-	return(res);
-}
-*/
 //Sinartisi pou dimiourgei ena neo komvo gia pigi tasis, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn tasis
 void createV(FILE *k){
 
@@ -96,8 +39,8 @@ void createV(FILE *k){
 	
 	fscanf(k,"%s",d);
 	new->node1=(char*)malloc(sizeof(char)*(strlen(d)+1));
-	CreateNode(d);
 	strcpy(new->node1 , d);
+	CreateNode(d);
 	if((d[0]=='0') && (d[1]=='\0')){groundflag=1;}
 	
 	fscanf(k,"%s",d);
@@ -402,6 +345,31 @@ void createB(FILE *k){
 }
 
 
+void CreateNode(char *string){
+
+	char str[12];
+	
+
+	NodeT *temp=rootN;
+
+	while(temp!=NULL){
+		if(strcmp(string,temp->name)==0||((string[0]=='0')&&(string[1])=='\0')){return;}
+		temp=temp->next;
+	}
+
+	temp = (NodeT*) malloc(sizeof(NodeT));
+	temp->name=(char*)malloc(sizeof(char)*(strlen(string)+1));
+	strcpy(temp->name ,string);
+
+	sprintf(str, "%d", hash_count);
+//	printf("%s\n",str);
+	ht_set(hashtable, temp->name, str);
+	hash_count++;
+	temp->next=rootN;
+	rootN=temp;
+
+}
+
 //Ektypwsi olwn twn stoixeiwn tou kyklwmatos pou diavastikan..	
 void printLists(){
 
@@ -509,39 +477,35 @@ void printLists(){
 }
 
 
-void printNodeList(){
-
-	NodeT *temp=rootN;
-
-	while(temp!=NULL){
-		printf("\nname=%s code=%d",temp->name,temp->code);
-		temp=temp->next;
+void printNodes(){
+ 	NodeT *current;	
+	current = rootN;
+	while(current!=NULL){				
+			printf("%s\n",current->name);
+			current = current ->next;	
 	}
-
-
-
 }
 
-void CreateNode(char *string){
 
-
-
+void printHash(){
 	NodeT *temp=rootN;
-
 	while(temp!=NULL){
-		if(strcmp(string,temp->name)==0||(string[0]=='0' && string[1]=='\0')){return;}
+		printf("%s = %s\n",temp->name, ht_get(hashtable,temp->name));
 		temp=temp->next;
-
 	}
-
-	temp = (NodeT*) malloc(sizeof(NodeT));
-	temp->name=(char*)malloc(sizeof(char)*(strlen(string)+1));
-	strcpy(temp->name ,string);
-
-	temp->code=NodeCounter;
-	NodeCounter++;
-	
-	temp->next=rootN;
-	rootN=temp;
-	
 }
+
+void printHash1(){
+
+	int i;
+	entry_t *next = NULL;
+	for(i=0;i<hashtable->size;i++){
+		next = hashtable->table[i];
+		while(next != NULL) {
+			printf("----%s = %s----\n",next->key,next->value);
+			next = next->next;
+		}
+	
+	}
+}
+		

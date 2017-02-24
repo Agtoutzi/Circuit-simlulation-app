@@ -1,5 +1,4 @@
 //Dilwsi twn structs 
-
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
@@ -104,11 +103,13 @@ typedef struct Bjt{
 typedef struct Node{
   
   char *name;
-  int code;
+  
+//  int code;
+
+  
   struct Node *next;
   
 }NodeT;
-
 
 //Dilwsi twn katholikwn metavlitwn tou programmatos (roots kai elegxou gia geiwsi)
 VoltT *rootV;
@@ -119,9 +120,13 @@ InductorT *rootL;
 DiodeT *rootD;
 MosT *rootM;
 BjtT *rootB;
-NodeT *rootN;
-int NodeCounter;
 int groundflag;
+int m2; 				//plh8os autepagwgwn kai phgwn tashs
+NodeT *rootN;					
+int hash_count;
+
+
+	
 
 void initCirc();
 void createV(FILE *k);
@@ -134,5 +139,6 @@ void createM(FILE *k);
 void createB(FILE *k);
 void printLists();
 void CreateNode(char *string);
+void printNodes();
 
 #endif
