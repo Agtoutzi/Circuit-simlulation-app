@@ -1,0 +1,5 @@
+Ralpha a1 a2 1.5e0
+Rbeta b1 b2 1.0e-1
+Rgamma c1 c2 5.2e1
+Rdelta d1 d2 6.0e+2
+Vvoltage1 v1 0 2.0e1
