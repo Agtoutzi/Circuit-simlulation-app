@@ -1,11 +1,5 @@
-Sweep source voltage at 0.001000:	Node 5 value:	0.001000
-Sweep source voltage at 0.001100:	Node 5 value:	0.001100
-Sweep source voltage at 0.001200:	Node 5 value:	0.001200
-Sweep source voltage at 0.001300:	Node 5 value:	0.001300
-Sweep source voltage at 0.001400:	Node 5 value:	0.001400
-Sweep source voltage at 0.001500:	Node 5 value:	0.001500
-Sweep source voltage at 0.001600:	Node 5 value:	0.001600
-Sweep source voltage at 0.001700:	Node 5 value:	0.001700
-Sweep source voltage at 0.001800:	Node 5 value:	0.001800
-Sweep source voltage at 0.001900:	Node 5 value:	0.001900
-Sweep source voltage at 0.002000:	Node 5 value:	0.002000
+Sweep source current at 0.001000:	Node 5 value:	2.000000e+00
+Sweep source current at 0.501000:	Node 5 value:	2.000000e+00
+Sweep source current at 1.001000:	Node 5 value:	2.000000e+00
+Sweep source current at 1.501000:	Node 5 value:	2.000000e+00
+Sweep source current at 2.001000:	Node 5 value:	2.000000e+00
