@@ -1,5 +1,3 @@
-Sweep source current at 0.001000:	Node 4 value:	1.988529e+00
-Sweep source current at 0.501000:	Node 4 value:	1.537622e+00
-Sweep source current at 1.001000:	Node 4 value:	1.086714e+00
-Sweep source current at 1.501000:	Node 4 value:	6.358062e-01
-Sweep source current at 2.001000:	Node 4 value:	1.848984e-01
+Sweep source voltage at 1.000000:	Node 4 value:	1.084282
+Sweep source voltage at 1.500000:	Node 4 value:	1.536460
+Sweep source voltage at 2.000000:	Node 4 value:	1.988638
