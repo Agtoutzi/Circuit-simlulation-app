@@ -1,9 +1,0 @@
-v1 vb va 32
-v2 vc 0 20
-r1 va 0 2
-r2 vb vc 4
-r3 vb 0 8
-.OPTIONS  ITER ITOL=12333 
-*.DC V2 1 20 0.1|
-*.DC
-*.PLOT V(va) V(vb) V(vc)
