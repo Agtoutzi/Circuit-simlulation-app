@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
 	
 //	printLists();
 //	printHash();
-
+	
 	//DC MODE
 
 	if(SPARSE==0)
