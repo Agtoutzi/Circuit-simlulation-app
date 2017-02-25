@@ -1,4 +1,11 @@
-Sweep source voltage at 1.000000:	Node 1 value:	0.937135
-Sweep source voltage at 1.500000:	Node 1 value:	1.411155
-Sweep source voltage at 2.000000:	Node 1 value:	1.885174
-Sweep source voltage at 2.500000:	Node 1 value:	2.359194
+Sweep source voltage at 0.001000:	Node 1 value:	-0.009957
+Sweep source voltage at 0.001100:	Node 1 value:	-0.009862
+Sweep source voltage at 0.001200:	Node 1 value:	-0.009767
+Sweep source voltage at 0.001300:	Node 1 value:	-0.009672
+Sweep source voltage at 0.001400:	Node 1 value:	-0.009578
+Sweep source voltage at 0.001500:	Node 1 value:	-0.009483
+Sweep source voltage at 0.001600:	Node 1 value:	-0.009388
+Sweep source voltage at 0.001700:	Node 1 value:	-0.009293
+Sweep source voltage at 0.001800:	Node 1 value:	-0.009198
+Sweep source voltage at 0.001900:	Node 1 value:	-0.009104
+Sweep source voltage at 0.002000:	Node 1 value:	-0.009009
