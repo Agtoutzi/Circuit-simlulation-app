@@ -1,0 +1,7 @@
+LA8OS APOTELESMATA GΙΑ SPARSE:
+
+1)SWEEP : mono LU kai cholesky gia to cholesky_netlist --> segmentation fault
+2)NO SWEEP : cholesky sto LU_netlist -->segmentation
+	     lu sto cholesky_netlist -->segmentation
+	     cholesky sto cholesky_netlist -->segmentation
+             bi-cg sto cholesky_netlist -->la8os apotelesmata
