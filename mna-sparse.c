@@ -12,7 +12,7 @@
 
 
 void CreateMnaSparse(){
-  
+
 	int i,j,k;
 	int b=1;
 	int n= hash_count-1;
@@ -21,19 +21,24 @@ void CreateMnaSparse(){
 	//Desmeush kai arxikopoihsh twn A,B,x
 
 	A_sparse = cs_spalloc(sizeA_sparse,sizeA_sparse,4*sizeA_sparse,1,1);
+	//Otan trexw tin Cholesky netlist de ta midenizei ola...	Gi auto vazw kai tin parakatw for...(ara yparxei lathos mnimis kapou edw)
+	
+	for(i=0;i<4*sizeA_sparse;i++){A_sparse->i[i]=0;A_sparse->p[i]=0;A_sparse->x[i]=0.0;}	
+	
 	A_sparse->nz=4*sizeA_sparse;
 	sizeB = (hash_count-1)+m2;
 	B_sparse = (double *)calloc(sizeB,sizeof(double));
 	x_sparse = (double *)calloc(sizeB,sizeof(double));
-  
-	//Diatrexoume ti lista twn antistasewn kai simplirwnoume katallila to 1o n-1 * n-1 kommati tou pinaka A
+
+	k=0;
+	//Diatrexoume ti lista twn ntistasewn kai simplirwnoume katallila to 1o n-1 * n-1 kommati tou pinaka A
 	
 	ResistanceT *currentR=rootR;
-	k=0;
+
 	while(currentR!=NULL){
 		i=atoi(ht_get(hashtable,currentR->node1));
 		j=atoi(ht_get(hashtable,currentR->node2));
-		
+
 		if(i!=0){
 		  A_sparse->i[k]=i-1;
 		  A_sparse->p[k]=i-1;
@@ -142,7 +147,7 @@ void CreateMnaSparse(){
 	      currentI = currentI ->next;
 	
 	}
-	
+
 	cs_print(A_sparse, "./SparseOutput/A-Sparse.txt", 0);
 
 	//Afou exoume ftiaksei ton A (mna) se triplet morfi, ton metatrepoume se
@@ -162,14 +167,14 @@ void solveSparse(){
 	FILE *fp;
 	char filename[30];
 	double *B_sparse_temp;
-	
-	if(ITER==0){
+
+	if(ITER==0){			//LU decomposition
 	  S=cs_sqr(2,C_sparse,0);
 	  N=cs_lu(C_sparse,S,1);
 	  cs_spfree(C_sparse);
 	}
-	if(dc_sweep==0){
-	  if (ITER == 0){
+	if(dc_sweep==0){		//An den exoume sweep
+	  if (ITER == 0){			//LU solve
 	    cs_ipvec(N->pinv, B_sparse, x_sparse, sizeA_sparse);
 	    cs_lsolve(N->L, x_sparse);
 	    cs_usolve(N->U, x_sparse);
@@ -183,17 +188,21 @@ void solveSparse(){
 	    printf(" %.6lf ",B_sparse[i]);
 	  }
 	  printf("\n");
-	}else{
-	  for(i=0;i<plot_size;i++){	//Adeiasma twn arxeiwn
+	}else{					//An exoume sweep
+	
+		//Adeiasma twn arxeiwn sta opoia tha apothikeutoun ta apotelesmata tis analysis gia tous komvous PLOT
+	  for(i=0;i<plot_size;i++){
 	    strcpy(filename,"./PlotFiles/Results-Node ");
 	    strcat(filename,plot_names[i]);
 	    fp = fopen(filename, "w");
 	    fflush(fp);
 	    fclose(fp);
 	  }
-	  B_sparse_temp = (double *)calloc(sizeB,sizeof(double));
-		if(sweep_source!=-1){		//pigi tashs
-		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+	  
+	  
+	  B_sparse_temp = (double *)calloc(sizeB,sizeof(double));		//Proswrini pothikeusi tou apotelesmatos tis LU solve anamesa sta loop
+		if(sweep_source!=-1){		//pigi tashs ginetai sweep
+		  for(current_value=start_value;current_value<end_value+sweep_step;current_value+=sweep_step){
 
 		    B_sparse[sweep_source-1]=current_value;
 		    if(ITER == 0){
@@ -204,7 +213,9 @@ void solveSparse(){
 		    }else{
 //			bi_conjugate_gradient(A,B,x,sizeA,itol_value);
 		    }
-		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+			
+		//Apothikeusi twn apotelesmatwn tis analysis gia tous komvous PLOT
+		    for(i=0;i<plot_size;i++){
 		      strcpy(filename,"./PlotFiles/Results-Node ");
 		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
@@ -216,8 +227,11 @@ void solveSparse(){
 		      fflush(fp);
 		      fclose(fp);
 		    }
+			
 		  }
-		}else{				//pigi reumatos
+		  
+		}else{				//pigi reumatos ginetai sweep
+		
 		  //Anairesi twn praksewn + kai - apo tin arxiki timi tis pigis ston pinaka B
 		  //kai praksi + kai - me to start_value
 		  if(sweep_posNode!=0){
@@ -227,7 +241,7 @@ void solveSparse(){
 		    B_sparse[sweep_negNode-1]-=sweep_value_I+start_value;
 		  }
 		  
-		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+		  for(current_value=start_value;current_value<end_value+sweep_step;current_value+=sweep_step){
 		    
 		  if(ITER == 0){
 		      cs_ipvec(N->pinv, B_sparse, x_sparse, sizeA_sparse);
@@ -237,6 +251,7 @@ void solveSparse(){
 		  }else{
 //		      bi_conjugate_gradient(A,B,x,sizeA,itol_value);
 		  }
+		  
 		   //Allagi twn timwn ston pinaka B gia to epomeno vima tou sweep
 		   if(sweep_posNode!=0){
 		     B_sparse[sweep_posNode-1]-=sweep_step;
@@ -244,8 +259,9 @@ void solveSparse(){
 		   if(sweep_negNode!=0){
 		     B_sparse[sweep_negNode-1]+=sweep_step;
 		   }
-
-		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+		   
+			//Apothikeusi twn apotelesmatwn tis analysis gia tous komvous PLOT se arxeia
+		    for(i=0;i<plot_size;i++){
 		      strcpy(filename,"./PlotFiles/Results-Node ");
 		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
@@ -257,11 +273,14 @@ void solveSparse(){
 		      fflush(fp);
 		      fclose(fp);
 		    }
+			
+			
 		  }
 		  printf("\n");
 		}
 	}
 }
+
 void solve_spdSparse(){
   	
 	int i;
@@ -274,9 +293,9 @@ void solve_spdSparse(){
 		//cholesky decomposition
 		S=cs_schol(1, C_sparse);
 		N=cs_chol(C_sparse, S);
-		cs_spfree(C_sparse);	
+		cs_spfree(C_sparse);
 	}
-	if(dc_sweep==0){
+	if(dc_sweep==0){		//An den exoume sweep
 		if(ITER==0){	
 		  cs_ipvec(S->pinv, B_sparse, x_sparse, sizeA_sparse);
 		  cs_lsolve(N->L, x_sparse);
@@ -284,25 +303,32 @@ void solve_spdSparse(){
 		  cs_pvec(S->pinv, x_sparse, B_sparse, sizeA_sparse);			//solve cholesky
 		}
 		else{
-			
-//			conjugate_gradient(A,B,x,sizeA,itol_value);
-		}								//solve with Conjugated Gradient
+//			conjugate_gradient(A,B,x,sizeA,itol_value);			//solve with Conjugated Gradient
+		}
+		
+		//Ektypwsi olou tou dianysmatos x stin konsola
 		printf("X vector \n");
 		for(i=0;i<sizeB;i++){
 			printf(" %.15lf ",gsl_vector_get(x,i));
 		}
 		printf("\n");
-	}else{
-	  for(i=0;i<plot_size;i++){	//Adeiasma twn arxeiwn
+		
+	}else{		//An exoume sweep
+		
+		
+		//Adeiasma twn arxeiwn sta opoia tha apothikeutoun ta apotelesmata tis analysis gia tous komvous PLOT
+	  for(i=0;i<plot_size;i++){
 	    strcpy(filename,"./PlotFiles/Results-Node ");
 	    strcat(filename,plot_names[i]);
 	    fp = fopen(filename, "w");
 	    fflush(fp);
 	    fclose(fp);
 	  }
-	  B_sparse_temp = (double *)calloc(sizeB,sizeof(double));
-		if(sweep_source!=-1){
-		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+	  
+	  
+	  B_sparse_temp = (double *)calloc(sizeB,sizeof(double));		//Proswrini apothikeusi tou apotelesmatos anamesa sta loop
+		if(sweep_source!=-1){				//pigi tasis ginetai sweep
+		  for(current_value=start_value;current_value<end_value+sweep_step;current_value+=sweep_step){
 
 		    B_sparse[sweep_source-1]=current_value;
 		    if(ITER==0){		
@@ -315,9 +341,9 @@ void solve_spdSparse(){
 			
 //			conjugate_gradient(A,B,x,sizeA,itol_value);		
 
-//Arxiki proseggish h lush ths prohgoumenhs.Mhpws exoume provlhma dioti sto sweep 8a dhlwnoume polles fores tous pinakes??'H oxi gt einai local gia ka8e klhsh ths sunarthshs?tzampa overhead.Persinoi dhlwnan sunexeia
 		    }
 		    
+			//Apothikeusi twn apotelesmatwn tis analysis gia tous komvous PLOT se arxeia
 		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
 		      strcpy(filename,"./PlotFiles/Results-Node ");
 		      strcat(filename,plot_names[i]);
@@ -331,7 +357,7 @@ void solve_spdSparse(){
 		      fclose(fp);
 		    }
 		  }
-		}else{
+		}else{		//pigi reumatos ginetai sweep
 		  //Anairesi twn praksewn + kai - apo tin arxiki timi tis pigis ston pinaka B
 		  //kai praksi + kai - me to start_value
 		  if(sweep_posNode!=0){
@@ -341,7 +367,7 @@ void solve_spdSparse(){
 		    B_sparse[sweep_negNode-1]-=sweep_value_I-start_value;
 		  }
 		  
-		  for(current_value=start_value;current_value<=end_value+sweep_step;current_value+=sweep_step){
+		  for(current_value=start_value;current_value<end_value+sweep_step;current_value+=sweep_step){
 
 		   if(ITER==0){
 		      cs_ipvec(S->pinv, B_sparse, x_sparse, sizeA_sparse);
@@ -364,7 +390,8 @@ void solve_spdSparse(){
 		     B_sparse[sweep_negNode-1]+=sweep_step;
 		   }
 
-		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+			//Apothikeusi twn apotelesmatwn tis analysis gia tous komvous PLOT se arxeia
+		    for(i=0;i<plot_size;i++){
 		      strcpy(filename,"./PlotFiles/Results-Node ");
 		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
@@ -376,6 +403,8 @@ void solve_spdSparse(){
 		      fflush(fp);
 		      fclose(fp);
 		    }
+			
+			
 		  }
 		  printf("\n");
 		}
