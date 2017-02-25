@@ -1,0 +1,17 @@
+V1 a5 0 2
+V2 a3 a2 0.2
+V3 a7 a6 2
+I1 a4 a8 1e-3
+I2 0 a6 1e-3
+R1 a1 a5 1.5
+R2 a1 a2 1
+R3 a5 a2 50
+R4 a5 a6 0.1
+R5 a2 a6 1.5
+R6 a3 a4 0.1
+R7 a8 0 1e3
+R8 a4 0 10
+
+.OPTIONS
+.DC V2 0 2 1
+.PLOT V(a3) V(a8)

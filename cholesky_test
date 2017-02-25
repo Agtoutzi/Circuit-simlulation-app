@@ -13,7 +13,7 @@ R10 3 2 2
 C1 7 0 0.1
 C2 2 0 0.2
 
-.OPTIONS ITER
+.OPTIONS SPD
 .PLOT V(1) V(2) V(5) V(6)
 .DC I2 1e-3 2e-3 1e-4
 *.DC

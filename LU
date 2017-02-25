@@ -1,10 +1,11 @@
-I1 4 8 1e-3
-I2 0 6 1e-3
-R1 1 5 1.5
-R2 1 2 1
-R3 5 2 50
-R4 5 6 0.1
-R5 2 6 1.5
-R6 3 4 0.2
-R7 8 0 1e3
-R8 4 0 10
+Sweep source voltage at 2.000000:	Node 6 value:	1.885174
+Sweep source voltage at 2.100000:	Node 6 value:	1.979978
+Sweep source voltage at 2.200000:	Node 6 value:	2.074782
+Sweep source voltage at 2.300000:	Node 6 value:	2.169586
+Sweep source voltage at 2.400000:	Node 6 value:	2.264390
+Sweep source voltage at 2.500000:	Node 6 value:	2.359194
+Sweep source voltage at 2.600000:	Node 6 value:	2.453998
+Sweep source voltage at 2.700000:	Node 6 value:	2.548802
+Sweep source voltage at 2.800000:	Node 6 value:	2.643606
+Sweep source voltage at 2.900000:	Node 6 value:	2.738410
+Sweep source voltage at 3.000000:	Node 6 value:	2.833214
