@@ -1,4 +1,4 @@
-7-by-7, nzmax: 21 nnz: 21
+10-by-10, nzmax: 21 nnz: 21
     col 0 : locations 0 to 1
       0 : 10.1
       6 : -10
@@ -27,3 +27,6 @@
       6 : 10.5
       5 : -0.5
       0 : -10
+    col 7 : locations 21 to 20
+    col 8 : locations 21 to 20
+    col 9 : locations 21 to 20
