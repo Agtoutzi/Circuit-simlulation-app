@@ -19,19 +19,17 @@
 #include <gsl/gsl_linalg.h>
 #include "csparse.h"
 #include "mna-sparse.h"
-
+#include "transient.h"
 
 int main(int argc, char *argv[]){
 
 	FILE *f=NULL;
 
 	char c;
-//	char option[100];
-	
 	
 	initCirc();
 
-	f=fopen(argv[1],"r");										//Anoigma tou arxeiou
+	f=fopen(argv[1],"r");		//Anoigma tou arxeiou
 	if(f==NULL){printf("\nProblem opening file. Program terminated...\n");return(0);}		//Elegxos an to arxeio anoikse kanonika, alliws termatismos..
 	
 	
@@ -65,39 +63,48 @@ int main(int argc, char *argv[]){
 	}while(!feof(f));
 
 	fclose(f);
+	
+//An den yparxei komvos 0 (geiwsi) to programma termatizei
+	if(groundflag==0){
+	  printf("\nError: There is no ground node. Program terminated...\n");
+	  return(0);
+	}
 
+	printf("TRAN:%d\n",TRAN);
+	printf("METHOD:%d\n",METHOD);
 	printf("SPARSE:%d\n",SPARSE);
 	printf("SPD:%d\n",SPD);
 	printf("ITER:%d\n",ITER);
-	printf("plot:%d\n",plot);
+	printf("PLOT:%d\n",plot);
 	
-	
-//An den yparxei komvos 0 (geiwsi) to programma termatizei
-	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
-
-
 //	printLists();
 //	printHash();
+	
+	//DC MODE
 
-	if(SPARSE==0){CreateMna();}
-	else{CreateMnaSparse();}
+	if(SPARSE==0)
+		CreateMna();
+	else
+		CreateMnaSparse();	
 	
 	/*EPILUSH SUSTHMATOS*/
 	if(SPARSE==0){
-	  if(SPD==0){
-		solve();
-	  }
-	  else{
-		solve_spd();
-	  }
+	  if(SPD==0)
+		solve();	  
+	  else
+		solve_spd();	  
 	}else{
-	  if(SPD==0){
-		solveSparse();
-	  }
-	  else{
-		solve_spdSparse();
-	  }
+	  if(SPD==0)
+		solveSparse();	  
+	  else	
+		solve_spdSparse();		
 	}
+
+	//TRANSIENT MODE
+	
+	if(TRAN==1) transient();
+
 	freeAllmem();
+	getchar();
 	return(0);
 }

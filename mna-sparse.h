@@ -6,22 +6,25 @@
 
 cs *A_sparse;			// Pinakas A (mna) se morfi triplet
 cs *C_sparse;			// Pinakas A (mna) se morfi compressed-column
+cs *D_sparse;			// Pinakas C (mna) se morfi triplet
+cs *E_sparse;			// Pinakas C (mna) se morfi triplet
+
 css *S;				// Pinakas S gia tin LU kai Cholesky
-css *N;				// Pinakas N gia tin LU kai Cholesky
+csn *N;				// Pinakas N gia tin LU kai Cholesky
 
-int sizeA_sparse;				//non zeros stoixeia tou pinaka A
-
-//gsl_vector *B;			//pinakas deksiou melous eksiswshs B ( double, mege8ous : [(n-1)+m2] x 1 ) -> grammi!	
-//int sizeB;				//[(n-1)+m2] x 1
-
-//gsl_vector *x;
-
-//gsl_permutation * p;		//dianusma meta8esewn
+int sizeA_sparse;		//non zeros stoixeia tou pinaka A
+int sizeD_sparse;		//non zeros stoixeia tou pinaka D
+double *B_sparse;		//pinakas deksiou melous eksiswshs B ( double, mege8ous : [(n-1)+m2] x 1 ) -> grammi!	
+double *x_sparse;
 
 void CreateMnaSparse();
+
 void solveSparse();
+
 void solve_spdSparse();
-//void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
-//void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
-//gsl_vector* preconditioner_diag(gsl_matrix *A,int n);
+
+void conjugate_gradient_sparse(cs *A, double *b, int n, double *x, double itol);
+
+void bi_conjugate_gradient_sparse(cs *A, double *b, int n, double *x, double itol);
+
 #endif

@@ -25,10 +25,13 @@ void initCirc(){
 	SPD=0;
 	ITER=0;
 	SPARSE=0;
+	TRAN=0;
+	METHOD=0;
 	itol_value=1e-3;
 	plot=0;
 	m2=0;
 	sizeA_sparse=0;
+	sizeD_sparse=0;
 	hash_count=1;
 	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
 	
@@ -41,7 +44,10 @@ void initCirc(){
 void createV(FILE *k){
 
 	char d[100];
+	char *readElement;
 	VoltT *new;
+	struct PWL* new2;
+	struct PWL* temp;
 	
 	new = (VoltT*) malloc(sizeof(VoltT));
 
@@ -64,17 +70,98 @@ void createV(FILE *k){
 	fscanf(k,"%s",d);
 	new->value=atof(d);
 	
+	fgets(d,10000,k);
+	readElement = strtok (d, " ,()\t");
+	if(strcmp(readElement,"EXP")==0||strcmp(readElement,"exp")==0){
+	  strcpy(new->transient_spec,"EXP");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->exp=(struct EXP*)malloc(sizeof(struct EXP));
+	  new->exp->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->i1: %lf\n",new->exp->i1);
+	  new->exp->i2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->i2: %lf\n",new->exp->i2);
+	  new->exp->td1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->td1: %lf\n",new->exp->td1);
+	  new->exp->tc1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->tc1: %lf\n",new->exp->tc1);
+	  new->exp->td2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->td2: %lf\n",new->exp->td2);
+	  new->exp->tc2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->tc2: %lf\n",new->exp->tc2);
+	}else if(strcmp(readElement,"SIN")==0||strcmp(readElement,"sin")==0){
+	  strcpy(new->transient_spec,"SIN");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->sin=(struct SIN*)malloc(sizeof(struct SIN));
+	  new->sin->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->i1: %lf\n",new->sin->i1);
+	  new->sin->ia = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->ia: %lf\n",new->sin->ia);
+	  new->sin->fr = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->fr: %lf\n",new->sin->fr);
+	  new->sin->td = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->td: %lf\n",new->sin->td);
+	  new->sin->df = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->df: %lf\n",new->sin->df);
+	  new->sin->ph = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->ph: %lf\n",new->sin->ph);
+	}else if(strcmp(readElement,"PULSE")==0||strcmp(readElement,"pulse")==0){
+	  strcpy(new->transient_spec,"PULSE");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->pulse=(struct PULSE*)malloc(sizeof(struct PULSE));
+	  new->pulse->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->i1: %lf\n",new->pulse->i1);
+	  new->pulse->i2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->i2: %lf\n",new->pulse->i2);
+	  new->pulse->td = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->td: %lf\n",new->pulse->td);
+	  new->pulse->tr = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->tr: %lf\n",new->pulse->tr);
+	  new->pulse->tf = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->tf: %lf\n",new->pulse->tf);
+	  new->pulse->pw = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->pw: %lf\n",new->pulse->pw);
+	  new->pulse->per = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->per: %lf\n",new->pulse->per);
+	}else if(strcmp(readElement,"PWL")==0||strcmp(readElement,"pwl")==0){
+	  strcpy(new->transient_spec,"PWL");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->pwl=(struct PWL*)malloc(sizeof(struct PWL));
+	  new->pwl->t = atof(strtok (NULL, " ,\t()\n"));
+//	  printf("\n\t\t\t\tpwl->t: %lf\n",new->pwl->t);
+	  new->pwl->i = atof(strtok (NULL, " ,\t()\n"));
+//	  printf("\n\t\t\t\tpwl->i: %lf\n",new->pwl->i);
+	  new->pwl->next=NULL;
+	  temp=new->pwl;
+	  readElement = strtok (NULL, " ,\t()\n");
+	  
+	  while(readElement!=NULL){
+	    new2=(struct PWL*)malloc(sizeof(struct PWL));
+	    temp->next=new2;
+	    new2->t=atof(readElement);
+//	  printf("\n\t\t\t\tpwl->t: %lf\n",new2->t);
+	    new2->i=atof(strtok (NULL, " ,\t()\r\n"));
+//	  printf("\n\t\t\t\tpwl->i: %lf\n",new2->i);
+	    readElement = strtok (NULL, " ,\t()\r\n");
+//	  printf("\n\t\t\t\treadElement: %s\n",readElement);
+	    temp=new2;
+	  }
+	}
+	
 	new->next = rootV;
 	rootV = new;
 	
-	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	sizeA_sparse++;
+	if(strcmp(new->node1,"0")){sizeA_sparse+=2;}
+	if(strcmp(new->node2,"0")){sizeA_sparse+=2;}
+	
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia pigi reumatos, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn reumatos
 void createI(FILE *k){
 
 	char d[100];
+	char *readElement;
+	struct PWL* new2;
+	struct PWL* temp;
 	AmperT *new;
 
 	new = (AmperT*) malloc(sizeof(AmperT));
@@ -98,11 +185,85 @@ void createI(FILE *k){
 	fscanf(k,"%s",d);
 	new->value=atof(d);
 	
+	fgets(d,10000,k);
+	readElement = strtok (d, " ,()\t");
+	if(strcmp(readElement,"EXP")==0){
+	  strcpy(new->transient_spec,"EXP");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->exp=(struct EXP*)malloc(sizeof(struct EXP));
+	  new->exp->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->i1: %lf\n",new->exp->i1);
+	  new->exp->i2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->i2: %lf\n",new->exp->i2);
+	  new->exp->td1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->td1: %lf\n",new->exp->td1);
+	  new->exp->tc1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->tc1: %lf\n",new->exp->tc1);
+	  new->exp->td2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->td2: %lf\n",new->exp->td2);
+	  new->exp->tc2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\texp->tc2: %lf\n",new->exp->tc2);
+	}else if(strcmp(readElement,"SIN")==0){
+	  strcpy(new->transient_spec,"SIN");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->sin=(struct SIN*)malloc(sizeof(struct SIN));
+	  new->sin->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->i1: %lf\n",new->sin->i1);
+	  new->sin->ia = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->ia: %lf\n",new->sin->ia);
+	  new->sin->fr = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->fr: %lf\n",new->sin->fr);
+	  new->sin->td = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->td: %lf\n",new->sin->td);
+	  new->sin->df = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->df: %lf\n",new->sin->df);
+	  new->sin->ph = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tsin->ph: %lf\n",new->sin->ph);
+	}else if(strcmp(readElement,"PULSE")==0){
+	  strcpy(new->transient_spec,"PULSE");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->pulse=(struct PULSE*)malloc(sizeof(struct PULSE));
+	  new->pulse->i1 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->i1: %lf\n",new->pulse->i1);
+	  new->pulse->i2 = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->i2: %lf\n",new->pulse->i2);
+	  new->pulse->td = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->td: %lf\n",new->pulse->td);
+	  new->pulse->tr = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->tr: %lf\n",new->pulse->tr);
+	  new->pulse->tf = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->tf: %lf\n",new->pulse->tf);
+	  new->pulse->pw = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->pw: %lf\n",new->pulse->pw);
+	  new->pulse->per = atof(strtok (NULL, " ,\t()"));
+//	  printf("\n\t\t\t\tpulse->per: %lf\n",new->pulse->per);
+	}else if(strcmp(readElement,"PWL")==0){
+	  strcpy(new->transient_spec,"PWL");
+//	  printf("\n\t\t\t\tnew->transient_spec: %s\n",new->transient_spec);
+	  new->pwl=(struct PWL*)malloc(sizeof(struct PWL));
+	  new->pwl->t = atof(strtok (NULL, " ,\t()\n"));
+//	  printf("\n\t\t\t\tpwl->t: %lf\n",new->pwl->t);
+	  new->pwl->i = atof(strtok (NULL, " ,\t()\n"));
+//	  printf("\n\t\t\t\tpwl->i: %lf\n",new->pwl->i);
+	  new->pwl->next=NULL;
+	  temp=new->pwl;
+	  readElement = strtok (NULL, " ,\t()\n");
+	  
+	  while(readElement!=NULL){
+	    new2=(struct PWL*)malloc(sizeof(struct PWL));
+	    temp->next=new2;
+	    new2->t=atof(readElement);
+//	  printf("\n\t\t\t\tpwl->t: %lf\n",new2->t);
+	    new2->i=atof(strtok (NULL, " ,\t()\r\n"));
+//	  printf("\n\t\t\t\tpwl->i: %lf\n",new2->i);
+	    readElement = strtok (NULL, " ,\t()\r\n");
+//	  printf("\n\t\t\t\treadElement: %s\n",readElement);
+	    temp=new2;
+	  }
+	}
+	
 	new->next = rootI;
 	rootI = new;
-	
-	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia antistasi, apothikeuei ta stoixeia gia auti tin antistasi apo to arxeio, kai to sindeei stin arxi tis listas antistasewn
@@ -137,7 +298,10 @@ void createR(FILE *k){
 	rootR=new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	sizeA_sparse++;
+	if(strcmp(new->node1,"0")){sizeA_sparse++;}
+	if(strcmp(new->node2,"0")){sizeA_sparse++;}
+	if(strcmp(new->node1,"0")&&strcmp(new->node2,"0")){sizeA_sparse+=2;}
+
 
 }
 
@@ -172,6 +336,9 @@ void createC(FILE *k){
 	rootC = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
+	if(strcmp(new->node1,"0")){sizeD_sparse++;}
+	if(strcmp(new->node2,"0")){sizeD_sparse++;}
+	if(strcmp(new->node1,"0")&&strcmp(new->node2,"0")){sizeD_sparse+=2;}
 
 }
 
@@ -206,7 +373,9 @@ void createL(FILE *k){
 	rootL = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	sizeA_sparse++;
+	if(strcmp(new->node1,"0")){sizeA_sparse+=2;}
+	if(strcmp(new->node2,"0")){sizeA_sparse+=2;}
+	sizeD_sparse++;
 
 }
 
@@ -478,4 +647,52 @@ void printHash(){
 		}
 	}
 }
+
+//Arxikopoiisi twn arxeiwn pou tha apothikeutoun ta apotelesmata twn ploted komvwn
+void initPlotFiles(char *str){
+  
+  int i;
+  char filename[100];
+  FILE *fp;
+  
+  for(i=0;i<plot_size;i++){	//Adeiasma twn arxeiwn
+	    strcpy(filename,"./PlotFiles/");
+	    strcat(filename,str);
+	    strcat(filename,"-Node ");
+	    strcat(filename,plot_names[i]);
+	    fp = fopen(filename, "w");
+	    fflush(fp);
+	    fclose(fp);
+	  }
+}
+
+//Apothikeusi sta arxeia apotelesmatwn
+void plotFiles(char *str, double *plot_table, double current_value, char *msg){
+  
+  int i;
+  char filename[100];
+  FILE *fp;
+  
+  for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+ 	strcpy(filename,"./PlotFiles/");
+	strcat(filename,str);
+	strcat(filename,"-Node ");
+ 	strcat(filename,plot_names[i]);
+ 	fp = fopen(filename, "a");
+ 	if (fp == NULL) {
+	  printf("Can't open output file %s!\n",filename);
+	  return;
+ 	}
+ 	if(current_value!=-1){
+	  fprintf(fp,"%s %lf:\tNode %s value:\t%lf\n",msg, current_value, plot_names[i], plot_table[plot_nodes[i]-1]);
+	}else{
+	  fprintf(fp,"%s Node %s value:\t%lf\n",msg, plot_names[i], plot_table[plot_nodes[i]-1]);
+	}
+ 	fflush(fp);
+ 	fclose(fp);
+ }
+  
+  
+}
+
 

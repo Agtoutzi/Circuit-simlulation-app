@@ -3,9 +3,4 @@
 
 void read_options(FILE *f);
 
-
-
-
-
-
 #endif

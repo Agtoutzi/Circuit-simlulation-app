@@ -42,6 +42,12 @@ void read_options(FILE *f){
 	    if (strstr(printable2,"ITER")!=NULL){
 		ITER=1;
 	    }
+	    if (strstr(printable2,"METHOD=TR")!=NULL){
+		METHOD=0;
+	    }
+	    if (strstr(printable2,"METHOD=BE")!=NULL){
+		METHOD=1;
+	    }
 	    if (strstr(printable2,"ITOL")!=NULL){
 		readElement = strtok (NULL, delimiters);
 		while((strcmp(readElement,"ITOL"))){readElement = strtok (NULL, delimiters);}
@@ -112,6 +118,9 @@ void read_options(FILE *f){
     
   }
   else if(!(strcmp(readElement,"TRAN"))){
+    TRAN=1;
+    time_step = atof(strtok (NULL, delimiters));
+    end_time = atof(strtok (NULL, delimiters));
     return;
   }
   else if(!(strcmp(readElement,"PLOT"))){
@@ -128,8 +137,10 @@ void read_options(FILE *f){
 		plot_size++;
 	 }
 
-     printf("PLOT_SIZE=%d\n",plot_size);
-	 plot_nodes= (int *)calloc(plot_size,sizeof(int)) ;			//AN PLOT_SIZE=0 -->PROVLIMA
+	 printf("PLOT_SIZE=%d\n",plot_size);
+	 plot_nodes= (int *)calloc(plot_size,sizeof(int));			
+	 plot_names= (char **)calloc(plot_size,sizeof(char *));
+	 //AN PLOT_SIZE=0 -->PROVLIMA
 	 
 	 readElement = strtok (printable2, delimiters);
 	 readElement = strtok (NULL, delimiters);
@@ -143,6 +154,7 @@ void read_options(FILE *f){
 	      if(gt_id==NULL){printf("PLOT node does not exist\nProgram terminated\n");exit(1);}
 	      fid=atoi (gt_id);
 	      plot_nodes[cnt]=fid;
+	      plot_names[cnt]=strdup(readElement);
 	      readElement = strtok (NULL, delimiters);
 	      if((readElement==NULL) || (strcmp(readElement,"V"))!=0){break;}
 	      readElement = strtok (NULL, delimiters);
