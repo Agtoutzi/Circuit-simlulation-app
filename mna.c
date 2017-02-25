@@ -375,16 +375,15 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	temp_q = gsl_vector_calloc(n);
 	res = gsl_vector_calloc(n);
 
-//	int i;
+	int i;
 	
       	precond=preconditioner_diag(a,sizeA);
- 	/*printf("\n");
+ 	printf("\n");
 	printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
  		printf(" %.6lf ",gsl_vector_get(precond,i));
-	
-	}*/
-
+	}
+	printf("\n");
 
 
 
@@ -466,7 +465,7 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 
 void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){
 
-//	int i;
+	int i;
 //	int j;
 	double EPS = 1e-12;
 	double rho,rho1,alpha,beta,omega;
@@ -502,11 +501,12 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	
 	precond=preconditioner_diag(a,sizeA);
 	 	
-	/*printf("PRECONTITIONER 1/Diag \n");
+	printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
  		printf(" %.6lf ",gsl_vector_get(precond,i));
 	
-	}*/
+	}
+	printf("\n");
 	
 	gsl_blas_dcopy(X,res);						//Store X sto temp res
 
