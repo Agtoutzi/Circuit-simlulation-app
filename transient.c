@@ -101,23 +101,23 @@ void transient(){
 /// 	      for(i=0;i<sizeB;i++){						//Efoson energopoih8oun mas vgazoun diaforetika apotelesmata se ka8e time_step alla argei h ektelesh
 /// 		x_sparse[i]=0.0;
 /// 	      }
-	      memset(x_sparse,0.0,sizeB*(sizeof(double)));
+///	      memset(x_sparse,0.0,sizeB*(sizeof(double)));
 	    }else{
 	      TRAN_backward_euler(x, C,e);
- 	      for(i=0;i<sizeB;i++){
-		gsl_vector_set(x,i,0.0);
- 	      }
+/// 	      for(i=0;i<sizeB;i++){
+/// 		gsl_vector_set(x,i,0.0);
+/// 	      }
 	    }
 	  }else{
 	    printf("TRAP\n");
 	    if(SPARSE){
 	      TRAN_trapezoidial_sparse(x_sparse,E_sparse,e_sparse,e_prev_sparse);
-	      memset(x_sparse,0.0,sizeB*(sizeof(double)));
+///	      memset(x_sparse,0.0,sizeB*(sizeof(double)));
 	    }else{
 	      TRAN_trapezoidial(x, C, e, e_prev);
-	      for(i=0;i<sizeB;i++){						//Efoson energopoih8oun mas vgazoun diaforetika apotelesmata se ka8e time_step alla argei h ektelesh
- 		gsl_vector_set(x,i,0.0);
- 	   	 }
+/// 	      for(i=0;i<sizeB;i++){						//Efoson energopoih8oun mas vgazoun diaforetika apotelesmata se ka8e time_step alla argei h ektelesh
+/// 		gsl_vector_set(x,i,0.0);
+/// 	      }
 	    }
 	  }
 	  
