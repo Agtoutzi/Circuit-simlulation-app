@@ -375,15 +375,16 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	temp_q = gsl_vector_calloc(n);
 	res = gsl_vector_calloc(n);
 
-	int i;
+//	int i;
 	
       	precond=preconditioner_diag(a,sizeA);
- 	printf("\n");
+ 	/*printf("\n");
 	printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
  		printf(" %.6lf ",gsl_vector_get(precond,i));
-	}
-	printf("\n");
+	
+	}*/
+
 
 
 
@@ -465,9 +466,9 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 
 void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){
 
-	int i;
+//	int i;
 //	int j;
-	double EPS = 1e-12;
+	double EPS = 1e-14;
 	double rho,rho1,alpha,beta,omega;
 	gsl_vector *r;
 	gsl_vector *z;
@@ -501,18 +502,17 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	
 	precond=preconditioner_diag(a,sizeA);
 	 	
-	printf("PRECONTITIONER 1/Diag \n");
+	/*printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
  		printf(" %.6lf ",gsl_vector_get(precond,i));
 	
-	}
-	printf("\n");
+	}*/
 	
 	gsl_blas_dcopy(X,res);						//Store X sto temp res
 
 	//r=b-Ax
 	gsl_blas_dcopy(b,r);	
-	gsl_blas_dgemv(CblasNoTrans,1,a,res,0.0,p);			//prosorina p=A*x 	
+	gsl_blas_dgemv(CblasNoTrans,1.0,a,res,0.0,p);			//prosorina p=A*x 	
 	gsl_vector_sub(r,p);	
 	
 	//transport r_t = r	
@@ -522,7 +522,7 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	
 	double r_norm = gsl_blas_dnrm2(r);
 	double b_norm = gsl_blas_dnrm2(b);
-	if(!b_norm){b_norm = 1;}
+	if(!b_norm){b_norm = 1.0;}
 
 
 	while(((r_norm/b_norm) > tolerance) && (iter < n)){
@@ -533,7 +533,7 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 
 		// transport
 		// z_t = MNA * z_t
-		gsl_blas_dcopy(r_t,z_t);
+		gsl_blas_dcopy(r_t,z_t);		//la8os
 		gsl_vector_mul(z_t,precond);
 
 /*		printf("Vector z:\n");
@@ -563,10 +563,10 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 			beta=rho/rho1;
 			
 			gsl_blas_dscal(beta,p);
-			gsl_blas_daxpy(1,z,p);	
+			gsl_blas_daxpy(1.0,z,p);	
 			
 			gsl_blas_dscal(beta,p_t);
-			gsl_blas_daxpy(1,z_t,p_t);
+			gsl_blas_daxpy(1.0,z_t,p_t);
 			
 		}
 
@@ -581,9 +581,9 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 		}
 		printf("\n");
 */		rho1=rho;
-		gsl_blas_dgemv(CblasNoTrans,1,a,p,0.0,q);			//q=A*p 
+		gsl_blas_dgemv(CblasNoTrans,1.0,a,p,0.0,q);			//q=A*p 
 		
-		gsl_blas_dgemv(CblasNoTrans,1,aT,p_t,0.0,q_t); 		//q_t = trans(A)*p_t
+		gsl_blas_dgemv(CblasNoTrans,1.0,aT,p_t,0.0,q_t); 		//q_t = trans(A)*p_t
 		
 		
 		gsl_blas_ddot(p_t,q,&omega);				//omega = trasn(p_t)*q
@@ -593,15 +593,15 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 			
 		gsl_blas_dcopy(p,temp_p);				//x=x+alpha*p
 		gsl_blas_dscal(alpha,temp_p);
-		gsl_blas_daxpy(1,temp_p,res);
+		gsl_blas_daxpy(1.0,temp_p,res);
 
 		gsl_blas_dcopy(q,temp_q);				//r=r-alpha*q
 		gsl_blas_dscal(-alpha,temp_q);
-		gsl_blas_daxpy(1,temp_q,r);
+		gsl_blas_daxpy(1.0,temp_q,r);
 
 		gsl_blas_dcopy(p,temp_qt);				//r_t = r_t-alpha*q_t
 		gsl_blas_dscal(-alpha,temp_qt);
-		gsl_blas_daxpy(1,temp_qt,r_t);
+		gsl_blas_daxpy(1.0,temp_qt,r_t);
 		
 		r_norm = gsl_blas_dnrm2(r);				//new r norm
 
@@ -623,7 +623,7 @@ gsl_vector* preconditioner_diag(gsl_matrix *A,int n){
 	
 	for(i=0;i<n;i++){
 		if(gsl_vector_get(&d.vector,i)==0){
-			gsl_vector_set(&d.vector,i,1);			//an kapoio stoixeio ths diagwniou einai 0 tote to 8etoume 1
+			gsl_vector_set(&d.vector,i,1.0);			//an kapoio stoixeio ths diagwniou einai 0 tote to 8etoume 1
 		}
 	}
 

@@ -20,7 +20,6 @@ double *x_sparse;
 void CreateMnaSparse();
 void solveSparse();
 void solve_spdSparse();
-void conjugate_gradient_sparse(cs *A, double *b, int n, double *x, double itol);
 //void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
 //void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
 //gsl_vector* preconditioner_diag(gsl_matrix *A,int n);

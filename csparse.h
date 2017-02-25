@@ -268,7 +268,7 @@ cs *cs_symperm(const cs *A, const int *pinv, int values);
  */
 int cs_scatter(const cs *A, int j, double beta, int *w, double *x, int mark, cs *C, int nz);
 
-/**
+/*
  *  Function that performs a sparse matrix permutation.
  *  @param A Sparse matrix to permute.
  *  @param pinv permutation vector of length m.
@@ -309,7 +309,7 @@ cs *cs_multiply(const cs *A, const cs *B);
 int cs_gaxpy (const cs *A, const double *x, double *y);
 
 
-/**
+/*
  *  1st norm of a matrix.
  *  @param A matrix.
  *  @return norm.
@@ -326,7 +326,7 @@ double cs_norm (const cs *A);
  */
 int cs_fkeep(cs *A, int(*fkeep)(int, int, double, void *), void *other);
 
-/**
+/*
  *  Function for performing LU decomposition with partial (row) pivoting of a sparse matrix.
  *  @param A Sparse matrix.
  *  @param S The symbolic analysis of matrix A, as it is computed from cs_sqr() function.
@@ -362,7 +362,7 @@ int cs_usolve (const cs *U, double *x);
 int cs_ltsolve(const cs *L, double *x);
 
 
-/**
+/*
  *  Function that solves x=A\b. where A is unsymmetric; b overwritten with solution
  *  @param order The ordering method that will be used (0:natural, 1:Chol, 2:LU, 3:QR).
  *  @param A Matrix to analyze.
@@ -373,7 +373,7 @@ int cs_ltsolve(const cs *L, double *x);
 int cs_lusol (int order, const cs *A, double *b, double tol);
 
 
-/**
+/*
  *  Column counts for sparse LU factorization of A.
  * 	@param A Matrix to analyse.
  * 	@param S The symbolic analysis of matrix A.
@@ -382,7 +382,7 @@ int cs_lusol (int order, const cs *A, double *b, double tol);
 static int cs_vcount (const cs *A, css *S);
 
 
-/**
+/*
  *  Function that performs symbolic ordering and analysis for QR or LU.
  *  @param order The ordering method that will be used (0:natural, 1:Chol, 2:LU, 3:QR).
  *  @param A Matrix to analyze.
@@ -422,7 +422,7 @@ int cs_reach (cs *G, const cs *B, int k, int *xi, const int *pinv) ;
  */
 int cs_ereach(const cs *A, int k, const int *parent, int *s, int *w);
 
-/**
+/*
  *  Depth-First-Search of the graph of a matrix.
  *  @param j The starting node of the traversal.
  *  @param G graph to search.
@@ -554,7 +554,7 @@ csn *cs_chol(const cs *A, const css *S);
 int cs_rechol(const cs *A, const csn *N, int *pinv, int *c, double *x);
 
 
-/**
+/*
  *  Function that solves x=A\b. where A is symmetric and positive definite; b overwritten with solution
  *  @param order The ordering method that will be used (0:natural, 1:Chol, 2:LU, 3:QR).
  *  @param A Matrix to analyze.

@@ -68,9 +68,7 @@ void createV(FILE *k){
 	rootV = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	if(strcmp(new->node1,"0")){sizeA_sparse+=2;}
-	if(strcmp(new->node2,"0")){sizeA_sparse+=2;}
-	
+	sizeA_sparse++;
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia pigi reumatos, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn reumatos
@@ -139,10 +137,7 @@ void createR(FILE *k){
 	rootR=new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	if(strcmp(new->node1,"0")){sizeA_sparse++;}
-	if(strcmp(new->node2,"0")){sizeA_sparse++;}
-	if(strcmp(new->node1,"0")&&strcmp(new->node2,"0")){sizeA_sparse+=2;}
-
+	sizeA_sparse++;
 
 }
 
@@ -211,8 +206,7 @@ void createL(FILE *k){
 	rootL = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
-	if(strcmp(new->node1,"0")){sizeA_sparse+=2;}
-	if(strcmp(new->node2,"0")){sizeA_sparse+=2;}
+	sizeA_sparse++;
 
 }
 
