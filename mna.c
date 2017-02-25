@@ -366,7 +366,8 @@ void solve_spd(){
 	}
 }
 
-void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){
+void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){	
+
 	double rho,rho1,alpha,beta;	
 	gsl_vector *r;	
 	gsl_vector *z;	
@@ -407,9 +408,9 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	
 	}*/
 
-//	printf("\n");
+	printf("\n");
 	for(i=0;i<n;i++){
-		 gsl_vector_set(precond,i,1/gsl_vector_get(precond,i));	//precontitioner^-1 (M^-1) = 1/diag(A)
+		 gsl_vector_set(precond,i,1.0/gsl_vector_get(precond,i));	//precontitioner^-1 (M^-1) = 1/diag(A)
 
 	}
 
@@ -420,11 +421,11 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	
 	}*/
 
-	gsl_blas_dcopy(X,res);						//Store X sto temp res...Isws na mh xreiazetai!!!
+	gsl_blas_dcopy(X,res);							//Store X sto temp res
 
 	//r=b-Ax
 	gsl_blas_dcopy(b,r);	
-	gsl_blas_dgemv(CblasNoTrans,1,a,res,1,p);			//prosorina p=A*x 	
+	gsl_blas_dgemv(CblasNoTrans,1,a,res,0.0,p);				//prosorina p=A*x 	
 	gsl_vector_sub(r,p);	
 	
 	/*printf("R vector \n");
@@ -443,8 +444,8 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	while( r_norm/b_norm > tolerance && iter < n ){
 
 		iter++;
-		gsl_blas_dcopy(r,z);					//gia na min allaksei o r
-		gsl_vector_mul(z,precond);				//douleuei
+		gsl_blas_dcopy(r,z);						//gia na min allaksei o r
+		gsl_vector_mul(z,precond);					
 		
 		/*printf("\n");
 		
@@ -454,7 +455,7 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 				
 		}*/
 
-		gsl_blas_ddot(r,z,&rho);				//r^T * Z
+		gsl_blas_ddot(r,z,&rho);					//r^T * Z
 		//printf("RHO:%lf\n",rho);
 
 		if(iter==1){
@@ -467,7 +468,7 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 			gsl_blas_daxpy(1,z,p);	
 		}
 		rho1=rho;
-		gsl_blas_dgemv(CblasNoTrans,1,a,p,1,q);			//q=A*p douleuei
+		gsl_blas_dgemv(CblasNoTrans,1,a,p,0.0,q);				//q=A*p 
 	
 		/*printf("\n");
 		printf("Q vector \n");
@@ -477,27 +478,28 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 		}
 		printf("\n");
 		*/
-		gsl_blas_ddot(p,q,&alpha);				//p^T * q
-		alpha=rho/alpha;					//alpha=rho/p^T*q
+		gsl_blas_ddot(p,q,&alpha);					//p^T * q
+		alpha=rho/alpha;						//alpha=rho/p^T*q
 				
 				
-		gsl_blas_dcopy(p,temp_p);				//x=x+alpha*p
+		gsl_blas_dcopy(p,temp_p);					//x=x+alpha*p
 		gsl_blas_dscal(alpha,temp_p);
 		gsl_blas_daxpy(1,temp_p,res);	
 
-		gsl_blas_dcopy(q,temp_q);				//r=r-alpha*q
+		gsl_blas_dcopy(q,temp_q);					//r=r-alpha*q
 		gsl_blas_dscal(-alpha,temp_q);
 		gsl_blas_daxpy(1,temp_q,r);	
 		
-		r_norm = gsl_blas_dnrm2(r);				//new r norm
+		r_norm = gsl_blas_dnrm2(r);					//new r norm
 
 	}
-	gsl_blas_dcopy(res,X);						//Restore res back to X
+	gsl_blas_dcopy(res,X);							//Restore res back to X
 }
 
 void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){
 
-	int j,i;
+	int i;
+	//int j;
 	double EPS = 1e-12;
 	double rho,rho1,alpha,beta,omega;
 	gsl_vector *r;
@@ -549,11 +551,11 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	}
 
 	
-	gsl_blas_dcopy(X,res);						//Store X sto temp res...Isws na mh xreiazetai!!!
+	gsl_blas_dcopy(X,res);						//Store X sto temp res
 
 	//r=b-Ax
 	gsl_blas_dcopy(b,r);	
-	gsl_blas_dgemv(CblasNoTrans,1,a,res,1,p);			//prosorina p=A*x 	
+	gsl_blas_dgemv(CblasNoTrans,1,a,res,0.0,p);			//prosorina p=A*x 	
 	gsl_vector_sub(r,p);	
 	
 	//transport r_t = r	
@@ -569,7 +571,7 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	while(((r_norm/b_norm) > tolerance) && (iter < n)){
 		iter++;
 		gsl_blas_dcopy(r,z);					//gia na min allaksei o r
-		gsl_vector_mul(z,precond);				//douleuei
+		gsl_vector_mul(z,precond);				
 		
 		
 		// transport
@@ -622,9 +624,9 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 		}
 		printf("\n");
 */		rho1=rho;
-		gsl_blas_dgemv(CblasNoTrans,1,a,p,1,q);			//q=A*p douleuei
+		gsl_blas_dgemv(CblasNoTrans,1,a,p,0.0,q);			//q=A*p 
 		
-		gsl_blas_dgemv(CblasNoTrans,1,aT,p_t,1,q_t); 		//q_t = trans(A)*p_t
+		gsl_blas_dgemv(CblasNoTrans,1,aT,p_t,0.0,q_t); 		//q_t = trans(A)*p_t
 		
 		
 		gsl_blas_ddot(p_t,q,&omega);				//omega = trasn(p_t)*q

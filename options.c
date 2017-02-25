@@ -121,7 +121,7 @@ void read_options(FILE *f){
 		plot_size++;
 	 }
 
-         printf("PLOT_SIZE=%d\n",plot_size+1);
+         printf("PLOT_SIZE=%d\n",plot_size);
 	 plot_nodes= (int *)calloc(plot_size+1,sizeof(int)) ;
 	 
 	 readElement = strtok (printable2, delimiters);
