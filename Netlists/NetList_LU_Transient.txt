@@ -17,6 +17,6 @@ C2 2 0 0.2
 L1 12 2 0.1
 
 .OPTIONS SPARSE
-*.DC V1 1 2 0.5
-.DC
+.DC V1 1 2 0.5
+*.DC
 .PLOT V(1) V(4) V(5)
