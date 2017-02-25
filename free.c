@@ -6,6 +6,8 @@
 #include "hash.h"
 #include "mna.h"
 #include "options.h"
+#include "mna-sparse.h"
+#include "csparse.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
 #include <gsl/gsl_linalg.h>

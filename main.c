@@ -17,7 +17,8 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
 #include <gsl/gsl_linalg.h>
-
+#include "csparse.h"
+#include "mna-sparse.h"
 
 
 int main(int argc, char *argv[]){
@@ -65,6 +66,7 @@ int main(int argc, char *argv[]){
 
 	fclose(f);
 
+	printf("SPARSE:%d\n",SPARSE);
 	printf("SPD:%d\n",SPD);
 	printf("ITER:%d\n",ITER);
 	printf("plot:%d\n",plot);
@@ -73,19 +75,27 @@ int main(int argc, char *argv[]){
 //An den yparxei komvos 0 (geiwsi) to programma termatizei
 	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
 
-
 //	printLists();
 //	printHash();
 
-	CreateMna();
+	if(SPARSE==0){CreateMna();}
+	else{CreateMnaSparse();}
 	
-	/*EPILUSH SUSTHMATOS*/			//Periptwsi an den exoume diavasei katholou .OPTIONS ?????????
-	if(SPD==0){
-	 
+	/*EPILUSH SUSTHMATOS*/
+	if(SPARSE==0){
+	  if(SPD==0){
 		solve();
-	}
-	else{
+	  }
+	  else{
 		solve_spd();
+	  }
+	}else{
+	  if(SPD==0){
+		solveSparse();
+	  }
+	  else{
+		solve_spdSparse();
+	  }
 	}
 	freeAllmem();
 	return(0);

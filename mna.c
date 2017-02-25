@@ -139,7 +139,6 @@ void solve(){
 	double current_value;
 	FILE *fp;
 	char filename[30];
-	char str[12];
 
 	p=gsl_permutation_alloc ((hash_count-1)+m2);
 	gsl_permutation_init(p);
@@ -172,10 +171,9 @@ void solve(){
 	  }
 	  printf("\n");
 	}else{
-	  for(i=0;i<=plot_size;i++){	//Adeiasma twn arxeiwn
-	    sprintf(str, "%d", plot_nodes[i]);
-	    strcpy(filename,"Results-Node ");
-	    strcat(filename,str);
+	  for(i=0;i<plot_size;i++){	//Adeiasma twn arxeiwn
+	    strcpy(filename,"./PlotFiles/Results-Node ");
+	    strcat(filename,plot_names[i]);
 	    fp = fopen(filename, "w");
 	    fflush(fp);
 	    fclose(fp);
@@ -189,17 +187,15 @@ void solve(){
 		    }else{
 			bi_conjugate_gradient(A,B,x,sizeA,itol_value);
 		    }
-		    for(i=0;i<=plot_size;i++){	//Gemisma twn arxeiwn
-
-		      sprintf(str, "%d", plot_nodes[i]);
-		      strcpy(filename,"Results-Node ");
-		      strcat(filename,str);
+		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+		      strcpy(filename,"./PlotFiles/Results-Node ");
+		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
 		      if (fp == NULL) {
 			printf("Can't open output file %s!\n",filename);
 			return;
 		      }
-		      fprintf(fp,"Sweep source voltage at %lf:\tNode %d value:\t%lf\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fprintf(fp,"Sweep source voltage at %lf:\tNode %s value:\t%lf\n",current_value, plot_names[i],gsl_vector_get(x,plot_nodes[i]-1));
 		      fflush(fp);
 		      fclose(fp);
 		    }
@@ -229,17 +225,15 @@ void solve(){
 		     gsl_vector_set(B,sweep_negNode-1,gsl_vector_get(B,sweep_negNode-1)+sweep_step);
 		   }
 
-		    for(i=0;i<=plot_size;i++){	//Gemisma twn arxeiwn
-
-		      sprintf(str, "%d", plot_nodes[i]);
-		      strcpy(filename,"Results-Node ");
-		      strcat(filename,str);
+		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
+		      strcpy(filename,"./PlotFiles/Results-Node ");
+		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
 		      if (fp == NULL) {
 			printf("Can't open output file %s!\n",filename);
 			return;
 		      }
-		      fprintf(fp,"Sweep source current at %lf:\tNode %d value:\t%.6e\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fprintf(fp,"Sweep source current at %lf:\tNode %s value:\t%.6e\n",current_value, plot_names[i],gsl_vector_get(x,plot_nodes[i]-1));
 		      fflush(fp);
 		      fclose(fp);
 		    }
@@ -255,7 +249,6 @@ void solve_spd(){
 	double current_value;
 	FILE *fp;
 	char filename[30];
-	char str[12];
 	
 	if(ITER==0){
 		gsl_linalg_cholesky_decomp(A);		//cholesky decomposition
@@ -283,9 +276,8 @@ void solve_spd(){
 		printf("\n");
 	}else{
 	  for(i=0;i<plot_size;i++){	//Adeiasma twn arxeiwn
-	    sprintf(str, "%d", plot_nodes[i]);
-	    strcpy(filename,"Results-Node ");
-	    strcat(filename,str);
+	    strcpy(filename,"./PlotFiles/Results-Node ");
+	    strcat(filename,plot_names[i]);
 	    fp = fopen(filename, "w");
 	    fflush(fp);
 	    fclose(fp);
@@ -303,16 +295,14 @@ void solve_spd(){
 		    }
 		    
 		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
-
-		      sprintf(str, "%d", plot_nodes[i]);
-		      strcpy(filename,"Results-Node ");
-		      strcat(filename,str);
+		      strcpy(filename,"./PlotFiles/Results-Node ");
+		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
 		      if (fp == NULL) {
 			printf("Can't open output file %s!\n",filename);
 			return;
 		      }
-		      fprintf(fp,"Sweep source voltage at %lf:\tNode %d value:\t%lf\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fprintf(fp,"Sweep source voltage at %lf:\tNode %s value:\t%lf\n",current_value, plot_names[i],gsl_vector_get(x,plot_nodes[i]-1));
 		      fflush(fp);
 		      fclose(fp);
 		    }
@@ -347,16 +337,14 @@ void solve_spd(){
 		   }
 
 		    for(i=0;i<plot_size;i++){	//Gemisma twn arxeiwn
-
-		      sprintf(str, "%d", plot_nodes[i]);
-		      strcpy(filename,"Results-Node ");
-		      strcat(filename,str);
+		      strcpy(filename,"./PlotFiles/Results-Node ");
+		      strcat(filename,plot_names[i]);
 		      fp = fopen(filename, "a");
 		      if (fp == NULL) {
 			printf("Can't open output file %s!\n",filename);
 			return;
 		      }
-		      fprintf(fp,"Sweep source current at %lf:\tNode %d value:\t%.6e\n",current_value, plot_nodes[i],gsl_vector_get(x,plot_nodes[i]-1));
+		      fprintf(fp,"Sweep source current at %lf:\tNode %s value:\t%.6e\n",current_value, plot_names[i],gsl_vector_get(x,plot_nodes[i]-1));
 		      fflush(fp);
 		      fclose(fp);
 		    }
@@ -387,39 +375,18 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	temp_q = gsl_vector_calloc(n);
 	res = gsl_vector_calloc(n);
 
-	gsl_vector_view d;						//gia na parw tin diagwnio
-
-	d=gsl_matrix_diagonal(a);					//d=diagwnios tou A
+//	int i;
 	
-
-	int i;
-	
-	for(i=0;i<n;i++){
-		if(gsl_vector_get(&d.vector,i)==0){
-			gsl_vector_set(&d.vector,i,1);			//an kapoio stoixeio ths diagwniou einai 0 tote to 8etoume 1
-		}
-	}
-
-	gsl_blas_dcopy(&d.vector,precond);				//gia na min allaksei h diagwnios tou a to antigrafw allou
-	
-	/*printf("Diag \n");
-	for(i=0;i<n;i++){
-		printf(" %.6lf ",gsl_vector_get(precond,i));
-	
-	}*/
-
-	printf("\n");
-	for(i=0;i<n;i++){
-		 gsl_vector_set(precond,i,1.0/gsl_vector_get(precond,i));	//precontitioner^-1 (M^-1) = 1/diag(A)
-
-	}
-
-	/*printf("\n");
+      	precond=preconditioner_diag(a,sizeA);
+ 	/*printf("\n");
 	printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
-		printf(" %.6lf ",gsl_vector_get(precond,i));
+ 		printf(" %.6lf ",gsl_vector_get(precond,i));
 	
 	}*/
+
+
+
 
 	gsl_blas_dcopy(X,res);							//Store X sto temp res
 
@@ -444,6 +411,7 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 	while( r_norm/b_norm > tolerance && iter < n ){
 
 		iter++;
+		
 		gsl_blas_dcopy(r,z);						//gia na min allaksei o r
 		gsl_vector_mul(z,precond);					
 		
@@ -498,8 +466,8 @@ void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double t
 
 void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance){
 
-	int i;
-	//int j;
+//	int i;
+//	int j;
 	double EPS = 1e-12;
 	double rho,rho1,alpha,beta,omega;
 	gsl_vector *r;
@@ -531,25 +499,14 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 	p_t = gsl_vector_calloc(n);
 	q_t = gsl_vector_calloc(n);
 	temp_qt = gsl_vector_calloc(n);
-	gsl_vector_view d;						//gia na parw tin diagwnio
-
-	d=gsl_matrix_diagonal(a);					//d=diagwnios tou A
 	
-
-	
+	precond=preconditioner_diag(a,sizeA);
+	 	
+	/*printf("PRECONTITIONER 1/Diag \n");
 	for(i=0;i<n;i++){
-		if(gsl_vector_get(&d.vector,i)==0){
-			gsl_vector_set(&d.vector,i,1);			//an kapoio stoixeio ths diagwniou einai 0 tote to 8etoume 1
-		}
-	}
-
-	gsl_blas_dcopy(&d.vector,precond);				//gia na min allaksei h diagwnios tou a to antigrafw allou
+ 		printf(" %.6lf ",gsl_vector_get(precond,i));
 	
-
-	for(i=0;i<n;i++){
-		 gsl_vector_set(precond,i,1.0/gsl_vector_get(precond,i));	//precontitioner^-1 (M^-1) = 1/diag(A)
-	}
-
+	}*/
 	
 	gsl_blas_dcopy(X,res);						//Store X sto temp res
 
@@ -572,8 +529,8 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 		iter++;
 		gsl_blas_dcopy(r,z);					//gia na min allaksei o r
 		gsl_vector_mul(z,precond);				
-		
-		
+
+
 		// transport
 		// z_t = MNA * z_t
 		gsl_blas_dcopy(r_t,z_t);
@@ -650,4 +607,40 @@ void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,doubl
 
 	}
 	gsl_blas_dcopy(res,X);						//Restore res back to X
+}
+
+gsl_vector* preconditioner_diag(gsl_matrix *A,int n){
+  
+	gsl_vector *precond;
+	precond = gsl_vector_calloc(n);
+	
+	gsl_vector_view d;						//gia na parw tin diagwnio
+
+	d=gsl_matrix_diagonal(A);					//d=diagwnios tou A
+	
+
+	int i;
+	
+	for(i=0;i<n;i++){
+		if(gsl_vector_get(&d.vector,i)==0){
+			gsl_vector_set(&d.vector,i,1);			//an kapoio stoixeio ths diagwniou einai 0 tote to 8etoume 1
+		}
+	}
+
+	gsl_blas_dcopy(&d.vector,precond);				//gia na min allaksei h diagwnios tou a to antigrafw allou
+	
+	/*printf("Diag \n");
+	for(i=0;i<n;i++){
+		printf(" %.6lf ",gsl_vector_get(precond,i));
+	
+	}*/
+
+
+	for(i=0;i<n;i++){
+		 gsl_vector_set(precond,i,1.0/gsl_vector_get(precond,i));	//precontitioner^-1 (M^-1) = 1/diag(A)
+
+	}
+
+	return precond;
+
 }

@@ -1,3 +1,6 @@
+#include <stdio.h>
+
+
 //Dilwsi twn structs 
 #ifndef STRUCTS_H
 #define STRUCTS_H
@@ -115,6 +118,7 @@ BjtT *rootB;
 int groundflag;	//arxikopoieitai me 0 kai ginetai isi me 1 otan diavasoume komvo '0' (geiwsi).
 int SPD;	//einai isi me 1 an exoume diavasei SPD sta OPTIONS. Alliws =0
 int ITER;	//einai isi me 1 an exoume diavasei ITER sta OPTIONS. Alliws =0
+int SPARSE;	//einai isi me 1 an exoume diavasei SPARSE sta OPTIONS. Alliws =0
 double itol_value;	//timi tis itol value an tin diavasoume
 int plot;	//einai isi me 1 otan tha kanoume PLOT kapoia dinamika komvwn
 int m2; 	//plh8os autepagwgwn kai phgwn tashs
@@ -127,6 +131,7 @@ double start_value;	//krata to start value gia to sweep(an ginetai)
 double end_value;	//krata to end value gia to sweep(an ginetai)
 double sweep_step;	//krata to sweep step gia to sweep(an ginetai)
 int *plot_nodes;	//einai o pinakas pou apothikeuontai ta ids ton komvwn pou ginontai PLOT
+char **plot_names;	//einai o pinakas pou apothikeuontai ta onomata ton komvwn pou ginontai PLOT
 int plot_size;		//megethos tou pinaka pou apothikeuontai ta ids ton komvwn pou ginontai PLOT
 double sweep_value_I;	//krataei to value tis pigis reumatos pou tha ginei sweep to opoio diavazetai apo to netlist
 

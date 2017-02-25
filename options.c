@@ -22,7 +22,7 @@ void read_options(FILE *f){
   char printable[10000];
   char printable2[10000];
   char *readElement;
-  const char delimiters[] = " ,\t()\n=";
+  const char delimiters[] = "\n ,\t()=";
   VoltT *nodeV;
   AmperT *nodeI;
   int cnt,fid;
@@ -30,17 +30,24 @@ void read_options(FILE *f){
 
   fgets(printable,10000,f);	//diavazei olokliri ti grammi
   strcpy(printable2,printable);	//tin antigrafei se allo ena string gia tis anagkes tis periptwsis PLOT
-
   readElement = strtok (printable, delimiters);	//diavazei tin prwti leksi tis grammis meta to '.'
   
   if(!(strcmp(readElement,"OPTIONS"))){	// periptwsi pou diavase OPTIONS
-	  
-	  while((readElement = strtok (NULL, delimiters))!=NULL){
-	    if (!(strcmp(readElement,"SPD"))){SPD=1;continue;
-	    }else if (!(strcmp(readElement,"ITER"))){ITER=1;continue;
-	    }else if (!(strcmp(readElement,"ITOL"))){itol_value=atof(strtok (NULL, delimiters));continue;
+	    if (strstr(printable2,"SPD")!=NULL){
+		SPD=1;
+	    }
+	    if (strstr(printable2,"SPARSE")!=NULL){
+		SPARSE=1;
+	    }
+	    if (strstr(printable2,"ITER")!=NULL){
+		ITER=1;
+	    }
+	    if (strstr(printable2,"ITOL")!=NULL){
+		readElement = strtok (NULL, delimiters);
+		while((strcmp(readElement,"ITOL"))){readElement = strtok (NULL, delimiters);}
+		itol_value=atof(strtok (NULL, delimiters));
 	    }	//an meta to itol den yparxei kati, to programma tha skasei... (core dumped)(emeis ypothetoume oti tha yparxei sigoura..)
-	  }
+
 	  return;
   }
   else if(!(strcmp(readElement,"DC"))){	//periptwsi pou diavase DC
@@ -112,7 +119,7 @@ void read_options(FILE *f){
 	  readElement = strtok (NULL, delimiters);
 	  if((readElement==NULL) || (strcmp(readElement,"V"))!=0){return;}
 	  readElement = strtok (NULL, delimiters);
-	  plot_size=0;
+	  plot_size=1;
 	  while(readElement!=NULL){
 		//save printable elements
 		readElement = strtok (NULL, delimiters);
@@ -121,8 +128,10 @@ void read_options(FILE *f){
 		plot_size++;
 	 }
 
-         printf("PLOT_SIZE=%d\n",plot_size);
-	 plot_nodes= (int *)calloc(plot_size+1,sizeof(int)) ;
+	 printf("PLOT_SIZE=%d\n",plot_size);
+	 plot_nodes= (int *)calloc(plot_size,sizeof(int));			
+	 plot_names= (char **)calloc(plot_size,sizeof(char *));
+	 //AN PLOT_SIZE=0 -->PROVLIMA
 	 
 	 readElement = strtok (printable2, delimiters);
 	 readElement = strtok (NULL, delimiters);
@@ -136,6 +145,7 @@ void read_options(FILE *f){
 	      if(gt_id==NULL){printf("PLOT node does not exist\nProgram terminated\n");exit(1);}
 	      fid=atoi (gt_id);
 	      plot_nodes[cnt]=fid;
+	      plot_names[cnt]=strdup(readElement);
 	      readElement = strtok (NULL, delimiters);
 	      if((readElement==NULL) || (strcmp(readElement,"V"))!=0){break;}
 	      readElement = strtok (NULL, delimiters);

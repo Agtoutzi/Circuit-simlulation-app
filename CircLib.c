@@ -8,6 +8,7 @@
 #include "options.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_cblas.h>
+#include "mna-sparse.h"
 
 //Sinartisi arxikopoiisis twn katholikwn metavlitwn
 void initCirc(){
@@ -23,9 +24,11 @@ void initCirc(){
 	groundflag=0;
 	SPD=0;
 	ITER=0;
+	SPARSE=0;
 	itol_value=1e-3;
 	plot=0;
 	m2=0;
+	sizeA_sparse=0;
 	hash_count=1;
 	hashtable = ht_create( 10000 );	//Create Hash table,oso ligotero tosa ligotera collision 
 	
@@ -65,6 +68,7 @@ void createV(FILE *k){
 	rootV = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
+	sizeA_sparse++;
 }
 
 //Sinartisi pou dimiourgei ena neo komvo gia pigi reumatos, apothikeuei ta stoixeia gia auti tin pigi apo to arxeio, kai to sindeei stin arxi tis listas pigwn reumatos
@@ -133,6 +137,7 @@ void createR(FILE *k){
 	rootR=new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
+	sizeA_sparse++;
 
 }
 
@@ -201,6 +206,7 @@ void createL(FILE *k){
 	rootL = new;
 	
 	while((d[0]=fgetc(k))!='\n'&&(d[0]!=EOF)){}
+	sizeA_sparse++;
 
 }
 
