@@ -1,0 +1,47 @@
+12-by-12, nzmax: 34 nnz: 34
+    col 0 : locations 0 to 4
+      0 : 10.6867
+      4 : -10
+      2 : -0.02
+      5 : -0.666667
+      10 : 1
+    col 1 : locations 5 to 7
+      1 : 10
+      7 : -10
+      9 : 1
+    col 2 : locations 8 to 12
+      2 : 0.686667
+      4 : -0.666667
+      0 : -0.02
+      9 : -1
+      11 : -1
+    col 3 : locations 13 to 14
+      3 : 0.001
+      8 : 1
+    col 4 : locations 15 to 18
+      4 : 10.6667
+      2 : -0.666667
+      0 : -10
+      8 : -1
+    col 5 : locations 19 to 21
+      5 : 1.66667
+      6 : -1
+      0 : -0.666667
+    col 6 : locations 22 to 24
+      6 : 1
+      5 : -1
+      11 : 1
+    col 7 : locations 25 to 26
+      7 : 10.1
+      1 : -10
+    col 8 : locations 27 to 28
+      3 : 1
+      4 : -1
+    col 9 : locations 29 to 30
+      1 : 1
+      2 : -1
+    col 10 : locations 31 to 31
+      0 : 1
+    col 11 : locations 32 to 33
+      6 : 1
+      2 : -1
