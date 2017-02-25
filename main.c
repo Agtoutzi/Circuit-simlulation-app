@@ -75,22 +75,29 @@ int main(int argc, char *argv[]){
 //An den yparxei komvos 0 (geiwsi) to programma termatizei
 	if(groundflag==0){printf("\nError: There is no ground node. Program terminated...\n");return(0);}
 
+
 //	printLists();
 //	printHash();
 
-	if(SPARSE==0){	CreateMna();	}
-	else{	CreateMnaSparse();	}
+	if(SPARSE==0){CreateMna();}
+	else{CreateMnaSparse();}
 	
 	/*EPILUSH SUSTHMATOS*/
 	if(SPARSE==0){
-	  if(SPD==0){		solve();	  }
-	  else{		solve_spd();	  }
+	  if(SPD==0){
+		solve();
+	  }
+	  else{
+		solve_spd();
+	  }
 	}else{
-	  if(SPD==0){		solveSparse();	  }
-	  else{		solve_spdSparse();		}
+	  if(SPD==0){
+		solveSparse();
+	  }
+	  else{
+		solve_spdSparse();
+	  }
 	}
-	
 	freeAllmem();
-	
 	return(0);
 }

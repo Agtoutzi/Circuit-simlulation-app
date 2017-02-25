@@ -1,7 +1,8 @@
+
 #include <math.h>
-#include "CircLib.h"
-#include "mna-sparse.h"
+#include <limits.h>
 #include "csparse.h"
+
 
 /********************************************************************************
  *                                                                              *
@@ -67,6 +68,7 @@ css *cs_sfree(css *S) {
 }
 
 cs *cs_done(cs *C, void *w, void *x, int ok) {
+
 	cs_free(w); /* free workspace */
 	cs_free(x);
 	return (ok ? C : cs_spfree(C)); /* return result if OK, else free it */
@@ -122,6 +124,7 @@ int cs_sprealloc(cs *A, int nzmax) {
 
 
 cs *cs_compress(const cs *T) {
+
 	int m, n, nz, p, k, *Cp, *Ci, *w, *Ti, *Tj;
 	double *Cx, *Tx;
 	cs *C;
@@ -145,9 +148,8 @@ cs *cs_compress(const cs *T) {
 	cs_cumsum(Cp, w, n); /* column pointers */
 	for (k = 0; k < nz; k++) {
 		Ci[p = w[Tj[k]]++] = Ti[k]; /* A(i,j) is the pth entry in C */
-		if (Cx){
+		if (Cx)
 			Cx[p] = Tx[k];
-		}	
 	}
 	return (cs_done(C, w, NULL, 1)); /* success; free w and return C */
 }

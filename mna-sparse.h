@@ -7,13 +7,14 @@
 cs *A_sparse;			// Pinakas A (mna) se morfi triplet
 cs *C_sparse;			// Pinakas A (mna) se morfi compressed-column
 css *S;				// Pinakas S gia tin LU kai Cholesky
-csn *N;				// Pinakas N gia tin LU kai Cholesky
+css *N;				// Pinakas N gia tin LU kai Cholesky
 
 int sizeA_sparse;				//non zeros stoixeia tou pinaka A
 
-double *B_sparse;			//pinakas deksiou melous eksiswshs B ( double, mege8ous : [(n-1)+m2] x 1 ) -> grammi!	
+//gsl_vector *B;			//pinakas deksiou melous eksiswshs B ( double, mege8ous : [(n-1)+m2] x 1 ) -> grammi!	
+//int sizeB;				//[(n-1)+m2] x 1
 
-double *x_sparse;
+//gsl_vector *x;
 
 //gsl_permutation * p;		//dianusma meta8esewn
 

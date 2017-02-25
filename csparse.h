@@ -344,7 +344,7 @@ csn *cs_lu (const cs *A, const css *S, double tol) ;
 int cs_lsolve(const cs *L, double *x);
 
 
-/**
+/*
  *  Function for solving a sparse upper triangular system Ux = b.
  *  @param U The upper triangular matrix. Matrix must have a zero-free diagonal.
  *  @param x The right-hand side vector on input and the solution on output.

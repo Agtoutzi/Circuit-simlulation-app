@@ -24,5 +24,4 @@ void solve_spd();
 void conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
 void bi_conjugate_gradient(gsl_matrix *a,gsl_vector *b,gsl_vector *X,int n,double tolerance);
 gsl_vector* preconditioner_diag(gsl_matrix *A,int n);
-//
 #endif
